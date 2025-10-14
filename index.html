@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>NutrApp - Guia Completo sobre Intolerância ao Glúten</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
+      <div class="container">
+        <a class="navbar-brand" href="#home">
+          <img src="imgs/image 112 (2).png" class="iconFrut" />
+          NutrApp
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="#home">Início</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">Sobre</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#symptoms">Sintomas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#foods">Alimentação</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#quiz">Quiz</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#tips">Dicas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">Contato</a>
+            </li>
+          </ul>
+
+          <a href="#" class="btn-outline">Cadastre-se/Entre</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Home -->
+    <section id="home" class="hero">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 hero-content">
+            <h1>Bem-Vindo ao NutrApp</h1>
+            <p>
+              Sentiu vontade de comer aquela comida do comercial e não sabe se
+              possui alergenicos?
+            </p>
+            <a href="#about" class="btn-hero">
+              <i class="fas fa-arrow-right me-2"></i>Saiba Mais
+            </a>
+          </div>
+          <div class="col-lg-6 text-center">
+            <div class="hero-icon">
+              <i class="fas fa-wheat-awn-circle-exclamation"></i>
+            </div>
+          </div>
+        </div>
+        <img src="imgs/mobile.png" class="mobileHome" />
+      </div>
+      <!-- Fim do Home -->
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section bg-light">
+      <div class="container">
+        <h2 class="section-title" data-aos="fade-up">
+          Restrições alimentares frequentes!
+        </h2>
+        <div class="row g-4">
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="info-card">
+              <div class="card-icon">
+              <img src="imgs/imgCeliaca.png" alt="">
+              </div>
+              <h3 class="titleCard">Doença Celíaca</h3>
+              <p class="card-text">
+                Condição autoimune onde o sistema imunológico ataca o intestino
+                delgado na presença de glúten, causando danos às vilosidades
+                intestinais.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="info-card">
+              <div class="card-icon">
+                <img src="imgs/lactose.png" alt="">
+              </div>
+              <h3 class="titleCard">Láctose</h3>
+              <p class="card-text">
+                Reação adversa ao glúten sem características autoimunes ou
+                alérgicas, mas que causa sintomas desconfortáveis.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="info-card">
+              <div class="card-icon">
+               <img src="imgs/amendoim.png" >
+              </div>
+              <h3 class="titleCard">Amendoim</h3>
+              <p class="card-text">
+                Reação alérgica às proteínas do trigo, incluindo mas não
+                limitada ao glúten, com sintomas que podem ser graves.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Symptoms Section -->
+    <section id="symptoms" class="section">
+      <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Principais Sintomas</h2>
+        <p
+          class="text-center text-muted mb-5"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          Reconheça os sinais que podem indicar intolerância ao glúten
+        </p>
+
+        <div class="symptoms-grid">
+          <div class="symptom-item" data-aos="zoom-in" data-aos-delay="100">
+            <div class="symptom-icon">
+              <i class="fas fa-stomach"></i>
+            </div>
+            <h4>Problemas Digestivos</h4>
+            <p>Dor abdominal, inchaço, gases, diarreia ou constipação</p>
+          </div>
+          <div class="symptom-item" data-aos="zoom-in" data-aos-delay="200">
+            <div class="symptom-icon">
+              <i class="fas fa-tired"></i>
+            </div>
+            <h4>Fadiga</h4>
+            <p>Cansaço excessivo e falta de energia mesmo após descanso</p>
+          </div>
+          <div class="symptom-item" data-aos="zoom-in" data-aos-delay="300">
+            <div class="symptom-icon">
+              <i class="fas fa-head-side-virus"></i>
+            </div>
+            <h4>Dores de Cabeça</h4> 
+            <p>Enxaquecas frequentes e dores de cabeça persistentes</p>
+          </div>
+          <div class="symptom-item" data-aos="zoom-in" data-aos-delay="400">
+            <div class="symptom-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h4>Névoa Mental</h4>
+            <p>Dificuldade de concentração e sensação de confusão mental</p>
+          </div>
+          <div class="symptom-item" data-aos="zoom-in" data-aos-delay="500">
+            <div class="symptom-icon">
+              <i class="fas fa-weight"></i>
+            </div>
+            <h4>Perda de Peso</h4>
+            <p>Emagrecimento não intencional devido à má absorção</p>
+          </div>
+          <div class="symptom-item" data-aos="zoom-in" data-aos-delay="600">
+            <div class="symptom-icon">
+              <i class="fas fa-hand-dots"></i>
+            </div>
+            <h4>Problemas de Pele</h4>
+            <p>Dermatite, eczema ou outras irritações cutâneas</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Foods Section -->
+    <section id="foods" class="section bg-light">
+      <div class="container">
+        <h2 class="section-title">Guia Alimentar</h2>
+        <div class="foods-container">
+          <div
+            class="foods-list foods-avoid"
+            data-aos="fade-right"
+            data-aos-delay="100"
+          >
+            <h3 class="foods-title">
+              <i class="fas fa-times-circle" style="color: #e74c3c"></i>
+              Alimentos a Evitar
+            </h3>
+            <div class="food-item">
+              <i class="fas fa-bread-slice"></i>
+              <span>Pães, bolos e biscoitos convencionais</span>
+            </div>
+            <div class="food-item">
+              <i class="fas fa-wheat-awn"></i>
+              <span>Massas de trigo (macarrão, lasanha)</span>
+            </div>
+            <div class="food-item">
+              <i class="fas fa-beer"></i>
+              <span>Cerveja e malte</span>
+            </div>
+            <div class="food-item">
+              <i class="fas fa-cookie"></i>
+              <span>Cereais matinais com glúten</span>
+            </div>
+            <div class="food-item">
+              <i class="fas fa-pizza-slice"></i>
+              <span>Pizza tradicional</span>
+            </div>
+            <div class="food-item">
+              <i class="fas fa-utensils"></i>
+              <span>Molhos e temperos industrializados</span>
+            </div>
+          </div>
+
+          <div
+            class="foods-list foods-safe"
+            data-aos="fade-left"
+            data-aos-delay="200"
+          >
+            <h3 class="foods-title">
+              <i class="fas fa-check-circle" style="color: #27ae60"></i>
+              Alimentos Seguros
+            </h3>
+            <div class="food-item">
+              <i class="fas fa-seedling"></i>
+              <span>Arroz, quinoa e amaranto</span>
+            </div>
+            <div class="food-item">
+              <i class="fas fa-apple-alt"></i>
+              <span>Frutas e vegetais frescos</span>
+            </div>
+            <div class="food-item">
+              <i class="fas fa-drumstick-bite"></i>
+              <span>Carnes, peixes e ovos naturais</span>
+            </div>
+            <div class="food-item">
+              <i class="fas fa-cheese"></i>
+              <span>Laticínios puros</span>
+            </div>
+            <div class="food-item">
+              <i class="fas fa-leaf"></i>
+              <span>Leguminosas (feijão, lentilha)</span>
+            </div>
+            <div class="food-item">
+              <i class="fas fa-corn"></i>
+              <span>Milho e derivados puros</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Quiz Section -->
+    <section id="quiz" class="section">
+      <div class="container">
+        <h2 class="section-title" data-aos="fade-up">
+          Quiz: Você tem Intolerância ao Glúten?
+        </h2>
+        <div class="quiz-container" data-aos="fade-up" data-aos-delay="200">
+          <div id="quizContent">
+            <div class="quiz-question" id="questionText">
+              Você sente desconforto abdominal após consumir pães ou massas?
+            </div>
+            <div class="quiz-options" id="quizOptions">
+              <div class="quiz-option" data-value="2">
+                Sempre ou quase sempre
+              </div>
+              <div class="quiz-option" data-value="1">Às vezes</div>
+              <div class="quiz-option" data-value="0">Raramente ou nunca</div>
+            </div>
+            <div class="text-center">
+              <button
+                class="btn btn-primary btn-lg"
+                id="nextQuestion"
+                style="display: none"
+              >
+                Próxima Pergunta <i class="fas fa-arrow-right ms-2"></i>
+              </button>
+              <button
+                class="btn btn-success btn-lg"
+                id="showResult"
+                style="display: none"
+              >
+                Ver Resultado <i class="fas fa-check ms-2"></i>
+              </button>
+            </div>
+          </div>
+          <div class="quiz-result" id="quizResult"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tips Section -->
+    <section id="tips" class="section bg-light">
+      <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Dicas Práticas</h2>
+        <div class="tips-grid">
+          <div class="tip-card" data-aos="flip-left" data-aos-delay="100">
+            <div class="tip-number">01</div>
+            <h4>Leia Sempre os Rótulos</h4>
+            <p>
+              Verifique a lista de ingredientes e procure por certificações "sem
+              glúten". Cuidado com contaminação cruzada.
+            </p>
+          </div>
+          <div class="tip-card" data-aos="flip-left" data-aos-delay="200">
+            <div class="tip-number">02</div>
+            <h4>Cozinhe em Casa</h4>
+            <p>
+              Prepare suas próprias refeições para ter controle total sobre os
+              ingredientes utilizados.
+            </p>
+          </div>
+          <div class="tip-card" data-aos="flip-left" data-aos-delay="300">
+            <div class="tip-number">03</div>
+            <h4>Tenha um Nutricionista</h4>
+            <p>
+              Busque orientação profissional para garantir uma dieta equilibrada
+              e nutritiva.
+            </p>
+          </div>
+          <div class="tip-card" data-aos="flip-left" data-aos-delay="400">
+            <div class="tip-number">04</div>
+            <h4>Evite Contaminação Cruzada</h4>
+            <p>
+              Use utensílios separados e superfícies limpas ao preparar
+              alimentos sem glúten.
+            </p>
+          </div>
+          <div class="tip-card" data-aos="flip-left" data-aos-delay="500">
+            <div class="tip-number">05</div>
+            <h4>Explore Alternativas</h4>
+            <p>
+              Descubra farinhas sem glúten como arroz, amêndoa, coco e tapioca
+              para suas receitas.
+            </p>
+          </div>
+          <div class="tip-card" data-aos="flip-left" data-aos-delay="600">
+            <div class="tip-number">06</div>
+            <h4>Comunique-se</h4>
+            <p>
+              Informe restaurantes e familiares sobre sua condição para evitar
+              exposição acidental.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+      <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Precisa de Ajuda?</h2>
+        <div class="row justify-content-center">
+          <div class="col-lg-8 text-center">
+            <p class="lead mb-4" data-aos="fade-up" data-aos-delay="100">
+              Se você suspeita que tem intolerância ao glúten, é importante
+              buscar orientação médica adequada.
+            </p>
+            <div class="row g-4">
+              <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="info-card">
+                  <div class="card-icon">
+                    <i class="fas fa-user-md"></i>
+                  </div>
+                  <h4>Consulte um Médico</h4>
+                  <p>
+                    Gastroenterologista ou clínico geral para diagnóstico
+                    adequado
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                <div class="info-card">
+                  <div class="card-icon">
+                    <i class="fas fa-utensils"></i>
+                  </div>
+                  <h4>Nutricionista</h4>
+                  <p>
+                    Orientação profissional para dieta sem glúten equilibrada
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-4" data-aos="zoom-in" data-aos-delay="400">
+                <div class="info-card">
+                  <div class="card-icon">
+                    <i class="fas fa-users"></i>
+                  </div>
+                  <h4>Grupos de Apoio</h4>
+                  <p>Conecte-se com outras pessoas que vivem sem glúten</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section" data-aos="fade-up" data-aos-delay="100">
+            <h4><i class="fas fa-leaf me-2"></i>NutrApp</h4>
+            <p>
+              Informações confiáveis sobre intolerância ao glúten para uma vida
+              mais saudável e consciente.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+          <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
+            <h4>Links Úteis</h4>
+            <a href="#about">Sobre Intolerância</a>
+            <a href="#symptoms">Sintomas</a>
+            <a href="#foods">Guia Alimentar</a>
+            <a href="#tips">Dicas Práticas</a>
+          </div>
+          <div class="footer-section" data-aos="fade-up" data-aos-delay="300">
+            <h4>Recursos</h4>
+            <a href="#">Receitas sem Glúten</a>
+            <a href="#">Lista de Produtos</a>
+            <a href="#">Restaurantes Seguros</a>
+            <a href="#">Blog</a>
+          </div>
+          <div class="footer-section" data-aos="fade-up" data-aos-delay="400">
+            <h4>Contato</h4>
+            <p><i class="fas fa-envelope me-2"></i>contato@NutrApp.com.br</p>
+            <p><i class="fas fa-phone me-2"></i>(11) 9999-9999</p>
+            <p><i class="fas fa-map-marker-alt me-2"></i>São Paulo, SP</p>
+          </div>
+        </div>
+        <hr style="border-color: #444" />
+        <div class="text-center">
+          <p>
+            &copy; 2025 NutrApp. Todos os direitos reservados. |
+            <small
+              >Este site é apenas informativo e não substitui orientação
+              médica.</small
+            >
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="js/quiz.js"></script>
+  </body>
+</html>
