@@ -1,0 +1,38 @@
+body {
+  background: url('fundoLogin.png') center center/cover no-repeat;
+}
+/* Fundo com imagem */
+.left-section {
+  background: url('fundoLogin.png') center center/cover no-repeat;
+  position: relative;
+}
+
+/* Efeito de escurecimento sobre a imagem */
+.left-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.left-section > div {
+  position: relative;
+  z-index: 2;
+}
+
+/* Linha branca personalizada */
+.custom-line {
+  width: 50%;
+  border: 2px solid #fff;
+  opacity: 0.8;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .left-section {
+    display: none;
+  }
+}

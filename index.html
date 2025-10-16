@@ -3,8 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="css/style.css" />
-    <title>NutrApp - Guia Completo sobre Intolerância ao Glúten</title>
+    <title>RotuScan - Guia Completo sobre Intolerância alimentares</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -28,25 +40,19 @@
     <div class="scroll-progress" id="scrollProgress"></div>
 
     <!-- Back to Top Button -->
-    <button class="back-to-top" id="backToTop">
+   <!--//<button class="back-to-top" id="backToTop">
       <i class="fas fa-arrow-up"></i>
     </button>
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
       <div class="container">
-        <a class="navbar-brand" href="#home">
-          <img src="imgs/image 112 (2).png" class="iconFrut" />
-          NutrApp
+        <a  href="#home">
+          <img src="imgs/logo.png" class="iconLogo" />
         </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <p class="titleNav">RotuScan</p>
+        
+        
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
@@ -65,14 +71,11 @@
               <a class="nav-link" href="#quiz">Quiz</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#tips">Dicas</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#contact">Contato</a>
+              <a class="nav-link" href="#tipos">Dicas</a>
             </li>
           </ul>
 
-          <a href="#" class="btn-outline">Cadastre-se/Entre</a>
+          <a href="login.html" class="btn-outline">Cadastre-se/Entre</a>
         </div>
       </div>
     </nav>
@@ -82,7 +85,7 @@
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6 hero-content">
-            <h1>Bem-Vindo ao NutrApp</h1>
+            <h1>Bem-Vindo ao RotuScan</h1>
             <p>
               Sentiu vontade de comer aquela comida do comercial e não sabe se
               possui alergenicos?
@@ -112,7 +115,7 @@
           <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
             <div class="info-card">
               <div class="card-icon">
-              <img src="imgs/imgCeliaca.png" alt="">
+                <img src="imgs/imgCeliaca.png" alt="" />
               </div>
               <h3 class="titleCard">Doença Celíaca</h3>
               <p class="card-text">
@@ -125,7 +128,7 @@
           <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
             <div class="info-card">
               <div class="card-icon">
-                <img src="imgs/lactose.png" alt="">
+                <img src="imgs/lactose.png" alt="" />
               </div>
               <h3 class="titleCard">Láctose</h3>
               <p class="card-text">
@@ -137,7 +140,7 @@
           <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
             <div class="info-card">
               <div class="card-icon">
-               <img src="imgs/amendoim.png" >
+                <img src="imgs/amendoim.png" />
               </div>
               <h3 class="titleCard">Amendoim</h3>
               <p class="card-text">
@@ -150,60 +153,126 @@
       </div>
     </section>
 
-    <!-- Symptoms Section -->
-    <section id="symptoms" class="section">
-      <div class="container">
-        <h2 class="section-title" data-aos="fade-up">Principais Sintomas</h2>
-        <p
-          class="text-center text-muted mb-5"
-          data-aos="fade-up"
-          data-aos-delay="100"
-        >
-          Reconheça os sinais que podem indicar intolerância ao glúten
+    <section class="sintomas-section py-10">
+      <div class="containerSintomas">
+        <h2 class="text-center display-6 fw-bold mb-2">Principais Sintomas</h2>
+        <p class="text-center text-muted mb-5">
+          Principais sintomas presentes em restrições alimentares
         </p>
 
-        <div class="symptoms-grid">
-          <div class="symptom-item" data-aos="zoom-in" data-aos-delay="100">
-            <div class="symptom-icon">
-              <i class="fas fa-stomach"></i>
-            </div>
-            <h4>Problemas Digestivos</h4>
-            <p>Dor abdominal, inchaço, gases, diarreia ou constipação</p>
+        <div class="row gx-4 gy-4 justify-content-center">
+          <!-- Card 1 -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <article class="card-sintoma">
+              <div
+                class="card-body d-flex flex-column align-items-center text-center"
+              >
+                <div class="icon-placeholder mb-3" aria-hidden="true"></div>
+                <h5 class="titleSintomas">Problemas Digestivos</h5>
+                <p class="card-text mt-2">
+                  Dor abdominal, inchaço, gases (flatulência), náuseas, diarreia
+                  ou constipação.Comum em Intolerância à Lactose, Intolerância
+                  ao Glúten (Doença Celíaca e Sensibilidade Não-Celíaca),
+                  Síndrome do Intestino Irritável.
+                </p>
+              </div>
+            </article>
           </div>
-          <div class="symptom-item" data-aos="zoom-in" data-aos-delay="200">
-            <div class="symptom-icon">
-              <i class="fas fa-tired"></i>
-            </div>
-            <h4>Fadiga</h4>
-            <p>Cansaço excessivo e falta de energia mesmo após descanso</p>
+
+          <!-- Card 2 -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <article class="card-sintoma">
+              <div
+                class="card-body d-flex flex-column align-items-center text-center"
+              >
+                <div class="icon-placeholder mb-3" aria-hidden="true"></div>
+                <h5 class="titleSintomas">Reações Cutâneas (Pele)</h5>
+                <p class="card-text mt-2">
+                  Coceira (prurido), urticária (placas elevadas e avermelhadas),
+                  eczema (dermatite) ou inchaço dos lábios, face ou
+                  língua.Característico de Alergias mediadas por IgE, como a
+                  Alergia a Amendoim, Crustáceos, Leite e outros alimentos.
+                </p>
+              </div>
+            </article>
           </div>
-          <div class="symptom-item" data-aos="zoom-in" data-aos-delay="300">
-            <div class="symptom-icon">
-              <i class="fas fa-head-side-virus"></i>
-            </div>
-            <h4>Dores de Cabeça</h4> 
-            <p>Enxaquecas frequentes e dores de cabeça persistentes</p>
+
+          <!-- Card 3 -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <article class="card-sintoma">
+              <div
+                class="card-body d-flex flex-column align-items-center text-center"
+              >
+                <div class="icon-placeholder mb-3" aria-hidden="true"></div>
+                <h5 class="titleSintomas">Fadiga Crônica</h5>
+                <p class="card-text mt-2">
+                  Cansaço ou exaustão excessiva e persistente, falta de energia
+                  mesmo após o descanso, muitas vezes resultado da má absorção
+                  de nutrientes.Comum na Doença Celíaca e outras Intolerâncias
+                  Alimentares que comprometem a absorção intestinal.
+                </p>
+              </div>
+            </article>
           </div>
-          <div class="symptom-item" data-aos="zoom-in" data-aos-delay="400">
-            <div class="symptom-icon">
-              <i class="fas fa-brain"></i>
-            </div>
-            <h4>Névoa Mental</h4>
-            <p>Dificuldade de concentração e sensação de confusão mental</p>
+
+          <!-- Card 4 -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <article class="card-sintoma">
+              <div
+                class="card-body d-flex flex-column align-items-center text-center"
+              >
+                <div class="icon-placeholder mb-3" aria-hidden="true"></div>
+                <h5 class="titleSintomas">Dores de Cabeça e Nevoeiro Mental</h5>
+                <p class="card-text mt-2">
+                  Enxaquecas frequentes, dificuldade de concentração, sensação
+                  de confusão mental e "névoa mental".Relatado por pessoas com
+                  Sensibilidade ao Glúten Não-Celíaca, Alergias e algumas
+                  Intolerâncias.
+                </p>
+              </div>
+            </article>
           </div>
-          <div class="symptom-item" data-aos="zoom-in" data-aos-delay="500">
-            <div class="symptom-icon">
-              <i class="fas fa-weight"></i>
-            </div>
-            <h4>Perda de Peso</h4>
-            <p>Emagrecimento não intencional devido à má absorção</p>
+
+          <!-- Card 5 -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <article class="card-sintoma">
+              <div
+                class="card-body d-flex flex-column align-items-center text-center"
+              >
+                <div class="icon-placeholder mb-3" aria-hidden="true"></div>
+                <h5 class="titleSintomas">
+                  Sintomas Respiratórios (Leves a Graves)
+                </h5>
+                <p class="card-text mt-2">
+                  Coriza, espirros, tosse, sensação de aperto na garganta ou
+                  sibilos (chiado no peito).Sinal de Alergias a alimentos,
+                  especialmente Amendoim, Crustáceos e Ovos. Em casos graves,
+                  pode evoluir para a anafilaxia.
+                </p>
+              </div>
+            </article>
           </div>
-          <div class="symptom-item" data-aos="zoom-in" data-aos-delay="600">
-            <div class="symptom-icon">
-              <i class="fas fa-hand-dots"></i>
-            </div>
-            <h4>Problemas de Pele</h4>
-            <p>Dermatite, eczema ou outras irritações cutâneas</p>
+
+          <!-- Card 6 -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <article class="card-sintoma">
+              
+              <div
+                class="card-body d-flex flex-column align-items-center text-center"
+              >
+                <div class="icon-placeholder mb-3" aria-hidden="true"></div>
+                <h5 class="titleSintomas">
+                  Alteração de Peso (Não Intencional)
+                </h5>
+                <p class="card-text " >
+                  Perda de peso não intencional ou dificuldade em ganhar peso,
+                  decorrente da má absorção de nutrientes pelo intestino
+                  inflamado.Típico da Doença Celíaca (pela atrofia das
+                  vilosidades intestinais) e outras condições de má absorção
+                  crônica.
+                </p>
+              </div>
+            </article>
           </div>
         </div>
       </div>
@@ -384,61 +453,12 @@
       </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section">
-      <div class="container">
-        <h2 class="section-title" data-aos="fade-up">Precisa de Ajuda?</h2>
-        <div class="row justify-content-center">
-          <div class="col-lg-8 text-center">
-            <p class="lead mb-4" data-aos="fade-up" data-aos-delay="100">
-              Se você suspeita que tem intolerância ao glúten, é importante
-              buscar orientação médica adequada.
-            </p>
-            <div class="row g-4">
-              <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
-                <div class="info-card">
-                  <div class="card-icon">
-                    <i class="fas fa-user-md"></i>
-                  </div>
-                  <h4>Consulte um Médico</h4>
-                  <p>
-                    Gastroenterologista ou clínico geral para diagnóstico
-                    adequado
-                  </p>
-                </div>
-              </div>
-              <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
-                <div class="info-card">
-                  <div class="card-icon">
-                    <i class="fas fa-utensils"></i>
-                  </div>
-                  <h4>Nutricionista</h4>
-                  <p>
-                    Orientação profissional para dieta sem glúten equilibrada
-                  </p>
-                </div>
-              </div>
-              <div class="col-md-4" data-aos="zoom-in" data-aos-delay="400">
-                <div class="info-card">
-                  <div class="card-icon">
-                    <i class="fas fa-users"></i>
-                  </div>
-                  <h4>Grupos de Apoio</h4>
-                  <p>Conecte-se com outras pessoas que vivem sem glúten</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Footer -->
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
           <div class="footer-section" data-aos="fade-up" data-aos-delay="100">
-            <h4><i class="fas fa-leaf me-2"></i>NutrApp</h4>
+            <h4><i class="fas fa-leaf me-2"></i>RotuScan</h4>
             <p>
               Informações confiáveis sobre intolerância ao glúten para uma vida
               mais saudável e consciente.
@@ -466,7 +486,7 @@
           </div>
           <div class="footer-section" data-aos="fade-up" data-aos-delay="400">
             <h4>Contato</h4>
-            <p><i class="fas fa-envelope me-2"></i>contato@NutrApp.com.br</p>
+            <p><i class="fas fa-envelope me-2"></i>contato@RotuScan.com.br</p>
             <p><i class="fas fa-phone me-2"></i>(11) 9999-9999</p>
             <p><i class="fas fa-map-marker-alt me-2"></i>São Paulo, SP</p>
           </div>
@@ -474,7 +494,7 @@
         <hr style="border-color: #444" />
         <div class="text-center">
           <p>
-            &copy; 2025 NutrApp. Todos os direitos reservados. |
+            &copy; 2025 RotuScan. Todos os direitos reservados. |
             <small
               >Este site é apenas informativo e não substitui orientação
               médica.</small
