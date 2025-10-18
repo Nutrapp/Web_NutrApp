@@ -15,6 +15,9 @@
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+  <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+</svg>
     <link rel="stylesheet" href="css/style.css" />
     <title>RotuScan - Guia Completo sobre Intolerância alimentares</title>
     <link
@@ -75,7 +78,7 @@
             </li>
           </ul>
 
-          <a href="login.html" class="btn-outline">Cadastre-se/Entre</a>
+          <a href="cadastro.html" class="btn-outline">Cadastre-se/Entre</a>
         </div>
       </div>
     </nav>
@@ -278,10 +281,13 @@
       </div>
     </section>
 
+
+
     <!-- Foods Section -->
     <section id="foods" class="section bg-light">
       <div class="container">
-        <h2 class="section-title">Guia Alimentar</h2>
+        <h2 class="section-title">Guia de Restrições</h2>
+        
         <div class="foods-container">
           <div
             class="foods-list foods-avoid"
@@ -289,32 +295,41 @@
             data-aos-delay="100"
           >
             <h3 class="foods-title">
-              <i class="fas fa-times-circle" style="color: #e74c3c"></i>
-              Alimentos a Evitar
+
+              <i class="fa-solid fa-triangle-exclamation" style="color: #FFB400"></i>
+                  Restrições alimentares
             </h3>
             <div class="food-item">
               <i class="fas fa-bread-slice"></i>
-              <span>Pães, bolos e biscoitos convencionais</span>
+              <span class="subText">Farinhas e grãos</span class="subText">
             </div>
             <div class="food-item">
               <i class="fas fa-wheat-awn"></i>
-              <span>Massas de trigo (macarrão, lasanha)</span>
+              <span class="subText">Refrigerantes</span class="subText">
             </div>
             <div class="food-item">
               <i class="fas fa-beer"></i>
-              <span>Cerveja e malte</span>
+              <span class="subText">Café e chocolate</span class="subText">
             </div>
             <div class="food-item">
               <i class="fas fa-cookie"></i>
-              <span>Cereais matinais com glúten</span>
+              <span class="subText">Trigo</span class="subText">
+            </div>
+            <div class="food-item">
+              <i class="fas fa-cookie"></i>
+              <span class="subText">Soja</span class="subText">
             </div>
             <div class="food-item">
               <i class="fas fa-pizza-slice"></i>
-              <span>Pizza tradicional</span>
+              <span class="subText">Amendoim e oleaginosas</span class="subText">
             </div>
             <div class="food-item">
               <i class="fas fa-utensils"></i>
-              <span>Molhos e temperos industrializados</span>
+              <span class="subText">Crustáceos</span class="subText">
+            </div>
+            <div class="food-item">
+              <i class="fas fa-utensils"></i>
+              <span class="subText">Peixes</span class="subText">
             </div>
           </div>
 
@@ -324,32 +339,40 @@
             data-aos-delay="200"
           >
             <h3 class="foods-title">
-              <i class="fas fa-check-circle" style="color: #27ae60"></i>
-              Alimentos Seguros
+               <i class="fa-solid fa-triangle-exclamation" style="color: #FFB400"></i>
+             Restrições alimentares
             </h3>
             <div class="food-item">
               <i class="fas fa-seedling"></i>
-              <span>Arroz, quinoa e amaranto</span>
+              <span class="subText">Ovos</span class="subText">
             </div>
             <div class="food-item">
               <i class="fas fa-apple-alt"></i>
-              <span>Frutas e vegetais frescos</span>
+              <span class="subText">Leite</span class="subText">
             </div>
             <div class="food-item">
               <i class="fas fa-drumstick-bite"></i>
-              <span>Carnes, peixes e ovos naturais</span>
+              <span class="subText" class="subText">Aditivos alimentares</span class="subText">
             </div>
             <div class="food-item">
               <i class="fas fa-cheese"></i>
-              <span>Laticínios puros</span>
+              <span class="subText" >Sacarose</span class="subText">
             </div>
             <div class="food-item">
               <i class="fas fa-leaf"></i>
-              <span>Leguminosas (feijão, lentilha)</span>
+              <span class="subText">Frutose</span class="subText">
             </div>
             <div class="food-item">
               <i class="fas fa-corn"></i>
-              <span>Milho e derivados puros</span>
+              <span class="subText">Lactose</span class="subText">
+            </div>
+            <div class="food-item">
+              <i class="fas fa-corn"></i>
+              <span class="subText">Glúten</span class="subText">
+            </div>
+            <div class="food-item">
+              <i class="fas fa-corn"></i>
+              <span class="subText">Alimentos vegetais</span class="subText">
             </div>
           </div>
         </div>
