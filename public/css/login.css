@@ -1,0 +1,186 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+}
+/* body {
+  background: linear-gradient( #6E5558 40%);
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+.wrapper {
+  background: linear-gradient(#6e5558 40%);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.container {
+  background: #fff;
+  padding: 3rem;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  width: 25%;
+  height: 78.6%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 200px;
+  margin-left: 50%;
+  position: absolute;
+}
+
+h4 {
+  color: #666;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  font-size: 20px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+.img {
+  background: url("../imgs/fundoLogin.jpg") center/cover no-repeat;
+  width: 70%;
+  height: 100%;
+  margin-right: 700px;
+}
+
+.dark {
+  position: absolute;
+  width: 70%;
+  height: 100%;
+  margin-right: 700px;
+  background-color: #00000094;
+}
+form label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.senha-wrapper {
+  position: relative;
+}
+
+.senha-wrapper .eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1rem;
+  color: #888;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.options a {
+  text-decoration: none;
+  color: #666;
+}
+
+.btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 1.2rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.divider span {
+  padding: 0 10px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.google-btn {
+  width: 100%;
+  border: 1px solid #ddd;
+  background: #fff;
+  padding: 0.8rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.google-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.signup {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.signup a {
+  text-decoration: none;
+  font-weight: 600;
+  color: #000;
+}
+
+@media (max-width: 450px) {
+  .container {
+    width: 90%;
+    padding: 2rem;
+  }
+}
