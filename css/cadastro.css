@@ -23,7 +23,7 @@ body {
 /* --- Coluna da Esquerda  */
 .presentation-panel {
   flex: 1;
-  background-image: url("../imgs/fundoCadastro.png"); /* Imagem de exemplo do Unsplash */
+  background-image: url("../imgs/wallpaperFundo/fundoCadastro.png"); /* Imagem de exemplo do Unsplash */
   background-size: cover;
   background-position: right;
   color: #ffffff;
@@ -103,6 +103,7 @@ form label {
 }
 
 input[type="email"],
+input[type="nome"],
 input[type="password"] {
   width: 100%;
   padding: 0.8rem;
