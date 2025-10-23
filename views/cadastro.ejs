@@ -16,7 +16,7 @@
         <section class="presentation-panel">
             <div class="presentation-content">
                 <div class="logo">
-                    <img src="imgs/RotoScan.png" alt="Logo RotoScan">
+                    <img src="../imgs/RotoScan.png" alt="Logo RotoScan">
                     <h1><span class="highlight-text1">Rotu</span><span class="highlight-text2">Scan</span></h1>
                 </div>
                 <h2>Seja bem-vindo!</h2>
@@ -38,47 +38,47 @@
                     <h3>Crie sua conta!</h3>
                 </div>
 
-                <form>
+                <form action="/cadastro/new" method="post">
                     <div class="divcadastro">
                         <div class="input-group">
                             <label for="name">Seu nome</label>
-                            <input type="text" id="name" name="name" value="Isaac" required>
+                            <input type="text" id="name" name="nome" value="" required>
                         </div>
 
                         <div class="input-group">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" value="isaac123@email.com" required>
+                            <input type="email" id="email" name="email" value="" required>
                         </div>
 
                         <div class="input-group">
                             <label for="password">Senha</label>
                             <div class="password-wrapper">
-                                <input type="password" id="password" name="campo-senha" required>
+                                <input type="password" id="password" name="senha" required>
                                 <div id="Eyeicon" onclick="showHide()"></div>
                             </div>
                         </div>
 
                         <button type="submit" class="btn-primary">Comece já!</button>
 
-
-                        <div class="separator">
-                            <span>Ou</span>
-                        </div>
-
-                        <button type="button" class="btn-google">
-                            <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                viewBox="0 0 48 48">
-                                <path fill="#FFC107"
-                                    d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
-                                </path>
-                                <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819"></path>
-                            </svg>
-                        </button>
-
-                        <p class="signup">Já tem conta? <a href="/login">Entre aqui!</a></p>
-                    </div>
                 </form>
+                <div class="separator">
+                    <span>Ou</span>
+                </div>
+
+                <button type="button" class="btn-google">
+                    <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 48 48">
+                        <path fill="#FFC107"
+                            d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
+                        </path>
+                        <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819"></path>
+                    </svg>
+                </button>
+
+                <p class="signup">Já tem conta? <a href="/login">Entre aqui!</a></p>
             </div>
+
+        </div>
         </div>
     </main>
     <script src="../js/script.js"></script>

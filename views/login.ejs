@@ -15,13 +15,13 @@
       <br>
       <h2>Conecte em sua conta</h2>
 
-      <form>
+      <form action="/authenticate" method="post">
         <label for="email">Email</label>
-        <input type="email" id="email" placeholder="isaac123@email.com">
+        <input type="email" name="email" id="email" placeholder="isaac123@email.com" required>
 
         <label for="senha">Senha</label>
         <div class="senha-wrapper">
-          <input type="password" id="senha" placeholder="***************">
+          <input type="password" name="senha" placeholder="***************" required>
           <span class="eye">👁️</span>
         </div>
 
