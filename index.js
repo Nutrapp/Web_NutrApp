@@ -2,10 +2,6 @@ import express from "express";
 const app = express();
 import session from 'express-session';
 
-
-// ... Outros middlewares como express.urlencoded e express.json ...
-
-// 2. Configurar o middleware de sessão
 app.use(session({
     secret: "suaChaveSecretaMuitoForte", // Chave usada para assinar o cookie de sessão
     resave: false,                      // Não salva a sessão se não houver alterações
@@ -17,15 +13,14 @@ app.use(session({
 
 
 import UsuarioController from "./controllers/UsuarioController.js";
-// --- INÍCIO DA CORREÇÃO ---
-// Middleware para decodificar dados de formulários HTML (URL-encoded)
+import ProdutosController from "./controllers/ProdutosController.js"
+
 app.use(express.urlencoded({ extended: true }));
 
-// Middleware para decodificar payloads JSON (útil para APIs)
 app.use(express.json());
-// --- FIM DA CORREÇÃO ---
 
 app.use("/",UsuarioController);
+app.use("/",ProdutosController);
 
 app.set("view engine", "ejs");
 
@@ -34,26 +29,6 @@ app.use(express.static("public"));
 app.get("/", function (req, res) {
     res.render("index");
 });
-
-
- // 1. Importar o módulo
-
-
-
-
-// 3. Suas rotas devem ser carregadas DEPOIS do middleware de sessão
-// app.use("/", router);
-// app.use(suasOutrasRotas);
-
-// ... Resto do seu código
-
-// app.get("/cadastro", function (req, res) {
-//   res.render("cadastro");
-// });
-
-// app.get("/login", function (req, res) {
-//   res.render("login");
-// });
 
 // INICIA O SERVIDOR NA PORTA 3000
 const port = 3000;

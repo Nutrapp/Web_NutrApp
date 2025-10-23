@@ -85,7 +85,7 @@ router.post("/authenticate", (req, res) => {
           id: Usuario.id,
           email: Usuario.email,
         };
-        res.redirect("/");
+        res.redirect("/produto");
         // SE A SENHA NÃO FOR VÁLIDA
       } else {
         // EXIBE A MENSAGEM
