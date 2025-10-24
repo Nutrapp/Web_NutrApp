@@ -14,6 +14,7 @@ app.use(session({
 
 import UsuarioController from "./controllers/UsuarioController.js";
 import ProdutosController from "./controllers/ProdutosController.js";
+import AddProdutosController from "./controllers/AddProdutosController.js";
 
 
 app.use(express.urlencoded({ extended: true }));
@@ -22,6 +23,7 @@ app.use(express.json());
 
 app.use("/",UsuarioController);
 app.use("/",ProdutosController);
+app.use("/",AddProdutosController);
 
 
 app.set("view engine", "ejs");

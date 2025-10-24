@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+        class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+        <path
+            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+    </svg>
+    <link rel="stylesheet" href="css/style.css" />
+    <title>RotuScan - Guia Completo sobre Intolerância alimentares</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+</head>
+
+<body style="background-color: #00A13E;">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
+        <div class="container">
+            <a href="#home">
+                <img src="imgs/logos/logo.png" class="iconLogo" />
+            </a>
+            <p class="titleNav">RotuScan</p>
+
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#symptoms">Sintomas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#foods">Alimentação</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#quiz">Quiz</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tipos">Dicas</a>
+                    </li>
+                </ul>
+
+                <a href="/login" class="btn-outline">Cadastre-se/Entre</a>
+            </div>
+        </div>
+    </nav>
+
+    <h1 style="font-weight: 900; color: white; text-align: center; position: absolute; margin-top: 8rem; margin-left: 45rem;">Adicionando produto!</h1>
+
+     <div class="container" style="margin-top: 14rem;border-radius:20px; height: 600px; width: 1500px; background-color: rgb(233, 0, 0); display: flex; position: relative; flex-direction: row; justify-content: center; align-items: center; padding: 2rem;">
+
+        <div class="upImg">
+            <input type="file" name="img_produto">
+        </div>
+
+        <div class="detalhesProd" style="margin-left: 2rem;">
+            <form action="/addProd" method="POST">s
+                <div class="mb-3">
+                    <label for="nomeProduto" class="form-label">Nome do Produto</label>
+                    <input type="text" class="form-control" id="nomeProduto" name="nomeProduto" required>
+                </div>
+                <div class="mb-3">
+                    <label for="ingredientes" class="form-label">Ingredientes</label>
+                    <textarea class="form-control" id="ingredientes" name="ingredientes" rows="4" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="informacoesNutricionais" class="form-label">Informações Nutricionais</label>
+                    <textarea class="form-control" id="informacoesNutricionais" name="informacoesNutricionais" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Adicionar Produto</button>
+            </form>
+    </div>
+
+</body>
+</html>
