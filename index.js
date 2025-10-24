@@ -3,7 +3,7 @@ const app = express();
 import session from 'express-session';
 
 app.use(session({
-    secret: "suaChaveSecretaMuitoForte", // Chave usada para assinar o cookie de sessão
+    secret: "123", // Chave usada para assinar o cookie de sessão
     resave: false,                      // Não salva a sessão se não houver alterações
     saveUninitialized: false,           // Não cria uma sessão até que algo seja armazenado
     cookie: { 
@@ -13,7 +13,8 @@ app.use(session({
 
 
 import UsuarioController from "./controllers/UsuarioController.js";
-import ProdutosController from "./controllers/ProdutosController.js"
+import ProdutosController from "./controllers/ProdutosController.js";
+
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -21,6 +22,7 @@ app.use(express.json());
 
 app.use("/",UsuarioController);
 app.use("/",ProdutosController);
+
 
 app.set("view engine", "ejs");
 
