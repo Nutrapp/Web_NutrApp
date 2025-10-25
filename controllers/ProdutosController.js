@@ -1,20 +1,18 @@
 // controllers/ProdutosController.js
 import express from "express";
-import Produto from "../models/produto.js"; // Seu modelo de Produto
+import Produto from "../models/produtos.js"; // IMPORTAÇÃO CORRIGIDA: DEVE SER 'produtos.js'
 const router = express.Router();
 
 // ROTA /produtos
 router.get("/produtos", async function (req, res) {
     try {
         // 1. Ação do Model: Buscar todos os produtos no banco de dados.
-        // O Sequelize retorna uma Promise, por isso usamos await.
         const produtos = await Produto.findAll({
             // Garante que os dados vêm como objetos JavaScript puros
             raw: true 
         });
 
         // 2. Passar os dados para a View:
-        // O array 'produtos' (plural) será passado para o EJS.
         res.render("produtos", {
             produtos: produtos // Variável que o EJS vai acessar
         });
