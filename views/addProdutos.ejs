@@ -10,15 +10,9 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-        class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
-        <path
-            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
-    </svg>
+        xintegrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>RotuScan - Guia Completo sobre Intolerância alimentares</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>RotuScan - Adicionar Produto</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
 </head>
@@ -61,87 +55,90 @@
         </div>
     </nav>
 
-    <h1 style="font-weight: 900; color: white; text-align: center; position: absolute; margin-top: 8rem; margin-left: 65rem;">Adicionando produto!</h1>
+    <!-- CONTAINER PRINCIPAL: Centraliza o título e o formulário na tela -->
+    <div class="main-content-wrapper">
+        <!-- Título Centralizado -->
+        <h1 class="page-title">Adicionando produto!</h1>
 
-     <div style="margin-top: 14rem;border-radius:20px; height: 30rem; width: 70rem; background-color: rgb(255, 255, 255); display: flex; position: relative; flex-direction: row; justify-content: center; align-items: center; padding: 2rem; margin-left: 10rem; flex-wrap: wrap; width: 100%;">
+        <!-- CONTAINER DO FORMULÁRIO (Card Branco) -->
+        <div class="add-product-container">
+            <!-- O formulário precisa do enctype para lidar com upload de arquivos! -->
+            <form action="/Produto" method="POST" enctype="multipart/form-data" class="product-form">
 
-        <!-- O formulário precisa do enctype para lidar com upload de arquivos! -->
-        <form action="/Produto" method="POST" enctype="multipart/form-data">
-            
-            <div class="form-content-wrapper" style="flex-wrap: wrap; width: 100%; background-color: lightpink;">
-                
-                <div class="upload-container" style="flex-wrap: wrap; width: 100%; background-color: aqua;">
-                    
-                    <label for="inputImagem" class="image-preview" id="imagePreviewContainer">
-                        <img id="previewImage" src="#" alt="Pré-visualização do produto" />
-                        <div class="upload-placeholder" id="uploadPlaceholder">
-                            <i class="fas fa-camera"></i><br>
-                            Clique para adicionar imagem
+                <!-- Layout de Grid para Imagem e Campos Lado a Lado (Design Figma) -->
+                <div class="form-grid-layout">
+
+                    <!-- Lado Esquerdo: Upload de Imagem -->
+                    <div class="upload-area">
+                        <label for="inputImagem" class="image-preview" id="imagePreviewContainer">
+                            <img id="previewImage" src="#" alt="Pré-visualização do produto" />
+                            <div class="upload-placeholder" id="uploadPlaceholder">
+                                <i class="fas fa-upload"></i><br>
+                                Adicione imagem
+                            </div>
+                        </label>
+                        <!-- Input de Arquivo (Escondido) -->
+                        <input type="file" class="form-control" id="inputImagem" name="imagemProduto" accept="image/*"
+                            style="display: none;" required>
+                    </div>
+
+                    <!-- Lado Direito: Campos do Produto e Botão Confirmar -->
+                    <div class="product-fields-wrapper">
+                        <!-- Linha 1: Nome Genérico e Marca -->
+                        <div class="form-group-flex">
+                            <div class="mb-3 w-100">
+                                <label for="nomeProduto" class="form-label">Nome genérico:</label>
+                                <input type="text" class="form-control" id="nomeProduto" name="nome_gen" required>
+                            </div>
+                            <div class="mb-3 w-100">
+                                <label for="marcaProduto" class="form-label">Marca:</label>
+                                <input type="text" class="form-control" id="marcaProduto" name="marca_produto" required>
+                            </div>
                         </div>
-                    </label>
 
-                    <!-- Input de Arquivo (Escondido) -->
-                    <input type="file" class="form-control" id="inputImagem" name="imagemProduto" accept="image/*" style="display: none;" required>
-                    
-                    <!-- Label que age como botão de upload (opcional, já que o preview é clicável) -->
-                    <label for="inputImagem" class="custom-file-label">
-                        Selecionar Arquivo
-                    </label>
+                        <!-- Linha 2: Quantidade e Código de Barras -->
+                        <div class="form-group-flex">
+                            <div class="mb-3 w-100">
+                                <label for="quantidade" class="form-label">Quantidade(g):</label>
+                                <input type="number" class="form-control" id="quantidade" name="quantidade" required>
+                            </div>
+                            <div class="mb-3 w-100">
+                                <label for="codBarra" class="form-label">Código de Barras:</label>
+                                <input type="text" class="form-control" id="codBarra" name="cod_barra" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Campos vazios para manter a estrutura e o espaçamento (como no figma) -->
+                         <div class="form-group-flex" style="opacity: 0;">
+                            <div class="mb-3 w-100">
+                                <label for="dummy1" class="form-label">.</label>
+                                <input type="text" class="form-control" id="dummy1">
+                            </div>
+                            <div class="mb-3 w-100">
+                                <label for="dummy2" class="form-label">.</label>
+                                <input type="text" class="form-control" id="dummy2">
+                            </div>
+                        </div>
+
+                        <!-- Botão de Confirmação (Alinhado à direita) -->
+                        <button type="submit" class="btn btn-success confirm-button">Confirmar!</button>
+                    </div>
+
                 </div>
-            
-                <div class="detalhesProd" style="flex-wrap: wrap; width: 100%; background-color: blueviolet;">
-                    <div class="mb-3">
-                        <label for="nomeProduto" class="form-label">Nome generico</label>
-                        <input type="text" class="form-control" id="nomeProduto" name="nome_gen" required>
-                    </div>
+            </form>
+        </div>
+    </div>
 
-                    <div class="mb-3">
-                        <label for="marcaProduto" class="form-label">Marca</label>
-                        <input type="text" class="form-control" id="marcaProduto" name="marca_produto" required>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="codBarra" class="form-label">Código de Barras</label>
-                        <input type="text" class="form-control" id="codBarra" name="cod_barra" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="quantidade" class="form-label">Quantidade</label>
-                        <input type="number" class="form-control" id="quantidade" name="quantidade" value="1" min="1" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-success w-100">Confirmar!</button>
-                </div>
-            </div>
-        </form>
-
-    <script>
-        document.getElementById('inputImagem').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            const previewImage = document.getElementById('previewImage');
-            const placeholder = document.getElementById('uploadPlaceholder');
-            
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImage.src = e.target.result;
-                    previewImage.style.display = 'block'; // Mostra a imagem
-                    placeholder.style.display = 'none'; // Esconde o placeholder
-                };
-                reader.readAsDataURL(file); // Lê o arquivo como URL de dados (base64)
-            } else {
-                previewImage.src = '#';
-                previewImage.style.display = 'none'; // Esconde a imagem
-                placeholder.style.display = 'block'; // Mostra o placeholder
-            }
-        });
-    </script>
-
-    <!-- Scripts do Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-C6IqB3Fh+yWJ43a8p9z3fKx6+nO4A4vXp2z/bE4f8UvUqO6A3v5gHhO7s2ZgS2z+O" crossorigin="anonymous"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        xintegrity="sha384-C6IqB3Fh+yWJ43a8p9z3fKx6+nO4A4vXp2z/bE4f8UvUqO6A3v5gHhO7s2ZgS2z+O"
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script>
-        AOS.init();
-    </script>
+
+    <!-- Chamada única para o arquivo de script.js -->
+    <script src="/js/script.js"></script>
+
 </body>
+
 </html>
