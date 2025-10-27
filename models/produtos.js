@@ -17,8 +17,12 @@ const Produto = connection.define("produtos", {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  usuario_id:{
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  }
 });
 
-Produto.sync({ force: false });
+//Produto.sync({ force: false });
 
 export default Produto;

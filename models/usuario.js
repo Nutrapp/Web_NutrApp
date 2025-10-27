@@ -17,7 +17,6 @@ const Usuario = connection.define("usuario", {
 });
 
 // Sincronizando a tabela com o banco de dados.
-// force: false garante que a tabela não seja apagada e recriada se já existir.
- Usuario.sync({ force: false });
+// force: false garante que a tabela não seja apagada e recriada se já existir.Usuario.sync({ force: false });
 
 export default Usuario;

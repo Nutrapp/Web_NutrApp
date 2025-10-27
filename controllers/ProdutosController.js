@@ -1,26 +1,28 @@
-// controllers/ProdutosController.js
 import express from "express";
-import Produto from "../models/produtos.js"; // IMPORTAÇÃO CORRIGIDA: DEVE SER 'produtos.js'
+import Produto from "../models/produtos.js";
+import Ingrediente from "../models/ingredientes.js";
+import Usuario from "../models/usuario.js";
 const router = express.Router();
 
-// ROTA /produtos
+
+// ROTA /produtos (VERSÃO CORRIGIDA)
 router.get("/produtos", async function (req, res) {
     try {
-        // 1. Ação do Model: Buscar todos os produtos no banco de dados.
-        const produtos = await Produto.findAll({
-            // Garante que os dados vêm como objetos JavaScript puros
-            raw: true
+        const produtosComUsuario = await Produto.findAll({
+            include: [{
+                model: Usuario,
+                as: 'usuario',
+                attributes: ['nome']
+            }],
+            raw: false,
+            order: [['createdAt', 'DESC']]
         });
-
-        // 2. Passar os dados para a View:
         res.render("produtos", {
-            produtos: produtos // Variável que o EJS vai acessar
+            produtos: produtosComUsuario
         });
 
     } catch (error) {
-        // Lidar com erros (ex: falha na conexão com o DB)
-        console.error("Erro ao buscar produtos:", error);
-        // Renderiza uma página de erro ou exibe uma mensagem
+        console.error("Erro ao buscar produtos e criadores:", error);
         res.status(500).render("erro", {
             mensagem: "Não foi possível carregar os produtos. Tente novamente."
         });
@@ -53,6 +55,50 @@ router.get("/produto/:id", async (req, res) => {
     } catch (error) {
         console.error(`Erro ao buscar detalhes do produto ID ${produtoId}:`, error);
         // Em caso de erro de DB ou outra falha, redireciona para a lista principal
+        res.redirect("/produtos");
+    }
+});
+
+
+// --- ROTA GET para DETALHE DO PRODUTO (Corrigida) ---
+router.get("/produto/:id", async (req, res) => {
+    const produtoId = req.params.id;
+
+    try {
+        // Busca o produto pelo ID (Primary Key)
+        const produto = await Produto.findByPk(produtoId, {
+            // REMOVE raw: true! Deve ser FALSE para buscar associações.
+            raw: false, 
+    
+            include: [
+                {
+                    model: Usuario,
+                    as: '',
+                    attributes: ['nome']
+                },
+                // 2. INCLUIR OS INGREDIENTES (N:M)
+                {
+                    model: Ingrediente,
+                    as: 'ingredientes', 
+                    through: { attributes: [] },
+                    attributes: ['nome']
+                }
+            ]
+        });
+
+        if (!produto) {
+            return res.redirect("/produtos");
+        }
+    
+        const produtoObjeto = produto.toJSON();
+
+        res.render("viewsProdutos", {
+            produto: produtoObjeto,
+            usuarioLogado: req.session.Usuario
+        });
+
+    } catch (error) {
+        console.error(`Erro ao buscar detalhes do produto ID ${produtoId}:`, error);
         res.redirect("/produtos");
     }
 });

@@ -177,9 +177,17 @@
 
                 <div class="col-md-7 product-info-col">
                     <h1>
-                        <%= produto.nome_gen %>
-                            <% if (produto.quantidade) { %> - <%= produto.quantidade %>g <% } %>
+                        Criado por:
+                        <% if (produto.usuario && produto.usuario.nome) { %>
+                            <%= produto.usuario.nome %>
+                                <% } else { %>
+                                    Usuário Desconhecido
+                                    <% } %>
+
+                                        <% if (produto.quantidade) { %> - <%= produto.quantidade %>g <% } %>
                     </h1>
+
+
 
                     <div class="alert alert-warning alert-dismissible fade show small" role="alert">
                         Esta página exibe os dados disponíveis. Campos como Embalagem e Categorias não estão no modelo
@@ -219,6 +227,23 @@
                                 <p class="info-value">
                                     <%= produto.marca_produto %>
                                 </p>
+                            </div>
+                            <div class="mt-3">
+                                <span class="info-label">Ingredientes:</span>
+                                <ul class="list-group list-group-flush">
+
+                                    <% if (produto.ingredientes && produto.ingredientes.length> 0) { %>
+                                        <% produto.ingredientes.forEach(ingrediente=> { %>
+                                            <li class="list-group-item">
+                                                <%= ingrediente.nome %>
+                                            </li>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <li class="list-group-item text-muted">Nenhum ingrediente
+                                                        cadastrado.</li>
+                                                    <% } %>
+
+                                </ul>
                             </div>
 
                             <div class="mt-4 d-flex justify-content-end gap-2">
