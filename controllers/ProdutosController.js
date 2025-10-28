@@ -1,201 +1,157 @@
-// controllers/ProdutosController.js
 import express from "express";
-import Produto from "../models/produtos.js"; // IMPORTAÇÃO CORRIGIDA: DEVE SER 'produtos.js'
+import Produto from "../models/produtos.js";
+import Usuario from "../models/usuario.js";
+import { Op } from "sequelize";
 const router = express.Router();
 
-// ROTA /produtos
+router.get("/produtos/pesquisar", (req, res) => {
+    res.redirect(`/produtos?q=${encodeURIComponent(req.query.q || '')}`);
+});
+
+// =========================================================================
+// ROTA GET /produtos (Lista produtos e lida com a busca)
+// =========================================================================
 router.get("/produtos", async function (req, res) {
+    const termoPesquisa = req.query.q;
+    const whereClause = {};
+
+    if (termoPesquisa) {
+        whereClause.nome_gen = {
+            [Op.like]: `%${termoPesquisa}%`
+        };
+    }
+
     try {
-        // 1. Ação do Model: Buscar todos os produtos no banco de dados.
+        // 1. Busca os produtos (mantendo raw: true)
         const produtos = await Produto.findAll({
-            // Garante que os dados vêm como objetos JavaScript puros
+            where: whereClause,
+            raw: true // MANTÉM RAW: TRUE
+        });
+
+        // --- MUDANÇA CRÍTICA: BUSCA MANUAL DOS NOMES ---
+        // 2. Extrai IDs únicos de usuários
+        const userIds = [...new Set(produtos.map(p => p.usuario_id_fk).filter(id => id))];
+
+        // 3. Busca todos os usuários de uma vez
+        const usuarios = await Usuario.findAll({
+            where: { id: userIds },
+            attributes: ['id', 'nome'],
             raw: true
         });
 
-        // 2. Passar os dados para a View:
+        // 4. Cria um mapa de ID para Nome para fácil acesso
+        const userMap = {};
+        usuarios.forEach(user => {
+            userMap[user.id] = user.nome;
+        });
+
+        // 5. Adiciona o nome do usuário a cada objeto produto
+        const produtosComNome = produtos.map(produto => ({
+            ...produto, // Clona todas as propriedades do produto
+            nomeCadastrador: produto.usuario_id_fk ? userMap[produto.usuario_id_fk] || 'Não Encontrado' : 'Não Registrado'
+        }));
+        // ---------------------------------------------
+
+        const usuarioLogado = req.session.Usuario || null;
+
+        // 6. Renderiza a view 'produtos'
         res.render("produtos", {
-            produtos: produtos // Variável que o EJS vai acessar
+            produtos: produtosComNome, // Passando os produtos com o novo campo
+            usuarioLogado: usuarioLogado,
+            termoPesquisa: termoPesquisa || '' 
         });
 
     } catch (error) {
-        // Lidar com erros (ex: falha na conexão com o DB)
-        console.error("Erro ao buscar produtos:", error);
-        // Renderiza uma página de erro ou exibe uma mensagem
+        // O erro "erro" está sendo capturado aqui, por isso você precisa do arquivo erro.ejs
+        console.error(`Erro ao buscar produtos (Termo: ${termoPesquisa || 'Nenhum'}):`, error);
         res.status(500).render("erro", {
             mensagem: "Não foi possível carregar os produtos. Tente novamente."
         });
     }
 });
 
-// --- ROTA GET para DETALHE DO PRODUTO (Sem View de Erro) ---
+// =========================================================================
+// ROTA GET /produto/:id: Exibe os detalhes de um produto
+// =========================================================================
 router.get("/produto/:id", async (req, res) => {
     const produtoId = req.params.id;
+    const usuarioLogado = req.session.Usuario || null; 
+    let nomeCadastrador = 'Usuário Não Encontrado'; // Variável para a view
 
     try {
-        // Busca o produto pelo ID (Primary Key)
+        // 1. Busca o produto (mantendo raw: true)
         const produto = await Produto.findByPk(produtoId, {
-            raw: true // Para obter dados puros
+            raw: true
         });
 
-        // Se o produto não for encontrado, redireciona para a lista principal
         if (!produto) {
-            // Opcional: Aqui você pode usar uma biblioteca de mensagens flash 
-            // para mostrar a mensagem "Produto não encontrado."
-            return res.redirect("/produtos");
+            // Verifica se o erro "erro" já foi resolvido, se não, use res.redirect
+            return res.redirect("/produtos"); 
         }
 
-        // Se encontrou, renderiza a view correta: viewsProdutos
+        // 2. Busca o nome do usuário (com raw: true para simplicidade)
+        if (produto.usuario_id_fk) {
+            const cadastrador = await Usuario.findByPk(produto.usuario_id_fk, {
+                raw: true // ESSENCIAL para evitar problemas de instância
+            });
+            
+            if (cadastrador && cadastrador.nome) {
+                nomeCadastrador = cadastrador.nome; 
+            }
+        }
+        
+        // 3. Renderiza a view, passando o nome do cadastrador
         res.render("viewsProdutos", {
-            produto: produto,
-            usuarioLogado: req.session.Usuario
+            produto: produto, 
+            usuarioLogado: usuarioLogado,
+            nomeCadastrador: nomeCadastrador // A variável que viewsProdutos.ejs precisa
         });
 
     } catch (error) {
         console.error(`Erro ao buscar detalhes do produto ID ${produtoId}:`, error);
-        // Em caso de erro de DB ou outra falha, redireciona para a lista principal
-        res.redirect("/produtos");
+        // Use a view de erro se ela existir, ou redirecione.
+        res.redirect("/produtos"); 
     }
 });
 
+// =========================================================================
+// ROTA POST /produtos/delete/:id (INALTERADA)
+// =========================================================================
+router.post("/produtos/delete/:id", async (req, res) => {
+    const produtoId = req.params.id;
+    const userId = req.session.Usuario ? req.session.Usuario.id : null;
 
-// // --- NOVA ROTA GET para BUSCAR produtos ---
-// router.get("/produtos/search", async (req, res) => {
-//     // Pega o termo de busca da query string (?query=...)
-//     const searchTerm = req.query.query; 
+    if (!userId) {
+        console.warn(`Tentativa de exclusão não autorizada. Produto ID: ${produtoId}`);
+        return res.status(401).send("Acesso negado. Você deve estar logado para excluir produtos.");
+    }
 
-//     // Verifica se há um termo de busca
-//     if (!searchTerm || typeof searchTerm !== 'string' || searchTerm.trim().length === 0) {
-//         // Se não houver termo, redireciona para a lista completa
-//         return res.redirect('/produtos'); 
-//     }
+    try {
+        const produto = await Produto.findByPk(produtoId);
 
-//     const term = searchTerm.trim();
+        if (!produto) {
+            console.warn(`Tentativa de exclusão de produto inexistente (ID: ${produtoId}).`);
+            return res.redirect("/produtos");
+        }
 
-//     try {
-//         const Produto = await getProdutoModel();
-//         const produtos = await Produto.findAll({
-//             where: {
-//                 // Busca por nome_gen que CONTENHA o termo (case-insensitive se o DB for CI)
-//                 nome_gen: {
-//                     [Op.like]: `%${term}%` 
-//                 }
-//                 // Você pode adicionar mais campos aqui se quiser buscar em marca_produto também
-//                 // [Op.or]: [
-//                 //     { nome_gen: { [Op.like]: `%${term}%` } },
-//                 //     { marca_produto: { [Op.like]: `%${term}%` } } 
-//                 // ]
-//             },
-//             raw: true,
-//             order: [['createdAt', 'DESC']]
-//         });
+        if (String(produto.usuario_id_fk) !== String(userId)) {
+            console.warn(`Usuário ${userId} tentou excluir produto de outro usuário (${produto.usuario_id_fk}).`);
+            return res.status(403).send("Ação proibida. Você só pode excluir seus próprios produtos.");
+        }
 
-//         // Renderiza a MESMA view 'produtos.ejs', mas passa o termo de busca
-//         res.render("produtos", {
-//             produtos: produtos, // Lista filtrada
-//             usuarioLogado: req.session.Usuario,
-//             searchTerm: term // Passa o termo para a view saber que é uma busca
-//         });
+        await Produto.destroy({
+            where: {
+                id: produtoId
+            }
+        });
 
-//     } catch (error) {
-//         console.error("Erro ao realizar busca de produtos:", error);
-//         res.status(500).render("erro", {
-//             mensagem: "Erro ao buscar produtos. Tente novamente."
-//         });
-//     }
-// });
+        console.log(`Produto ${produtoId} excluído com sucesso pelo usuário ${userId}.`);
+        res.redirect("/produtos");
 
-// // --- ROTAS DE EDIÇÃO (Existentes) ---
-// // GET /produto/edit/:id (requireLogin)
-// // POST /produto/update/:id (requireLogin)
-// // POST /produto/delete/:id (requireLogin)
-// // (Mantenha as rotas de edição e exclusão que você já tem aqui)
-// // --- ROTA GET para exibir o FORMULÁRIO DE EDIÇÃO ---
-// router.get("/produto/edit/:id", requireLogin, async (req, res) => {
-//     const produtoId = req.params.id;
-//     const userId = req.session.Usuario.id; 
-
-//     try {
-//         const Produto = await getProdutoModel();
-//         const produto = await Produto.findByPk(produtoId);
-
-//         if (!produto) {
-//             return res.status(404).send("Produto não encontrado.");
-//         }
-//         if (produto.usuarioId !== userId) {
-//             return res.status(403).send("Acesso negado.");
-//         }
-//         res.render("editProduto", { produto: produto.get({ plain: true }) });
-//     } catch (error) {
-//         console.error(`Erro ao buscar produto ID ${produtoId} para edição:`, error);
-//         res.status(500).send("Erro ao carregar o formulário de edição.");
-//     }
-// });
-
-// // --- ROTA POST para ATUALIZAR ---
-// router.post("/produto/update/:id", requireLogin, async (req, res) => {
-//     const produtoId = req.params.id;
-//     const userId = req.session.Usuario.id; 
-//     const { nome_gen, marca_produto, cod_barra, quantidade } = req.body;
-
-//     try {
-//         const Produto = await getProdutoModel();
-//         const produto = await Produto.findByPk(produtoId);
-
-//         if (!produto) {
-//             return res.status(404).send("Produto não encontrado.");
-//         }
-//         if (produto.usuarioId !== userId) {
-//              return res.status(403).send("Acesso negado.");
-//         }
-
-//         await produto.update({
-//             nome_gen,
-//             marca_produto,
-//             cod_barra,
-//             quantidade: quantidade ? parseInt(quantidade, 10) : produto.quantidade
-//         });
-
-//         res.redirect("/produtos"); 
-//     } catch (error) {
-//         console.error(`Erro ao atualizar produto ID ${produtoId}:`, error);
-//         res.status(500).send("Erro ao salvar as alterações.");
-//     }
-// });
-
-// // --- ROTA POST para EXCLUIR ---
-// router.post("/produto/delete/:id", requireLogin, async (req, res) => {
-//     const produtoId = req.params.id;
-//     const userId = req.session.Usuario.id;
-
-//     try {
-//         const Produto = await getProdutoModel();
-//         const produto = await Produto.findByPk(produtoId);
-
-//         if (!produto) {
-//             return res.status(404).send("Produto não encontrado.");
-//         }
-//         if (produto.usuarioId !== userId) {
-//             return res.status(403).send("Acesso negado.");
-//         }
-
-//         // Opcional: Deletar imagem
-//         const imagePath = path.join('public', produto.url_imagem_produto); 
-//         if (fs.existsSync(imagePath)) {
-//             try {
-//                 fs.unlinkSync(imagePath);
-//             } catch (imgErr) {
-//                 console.error("Erro ao remover imagem:", imgErr);
-//             }
-//         }
-
-//         await produto.destroy();
-//         res.redirect("/produtos"); 
-
-//     } catch (error) {
-//         console.error(`Erro ao excluir produto ID ${produtoId}:`, error);
-//         res.status(500).send("Erro ao excluir o produto.");
-//     }
-// });
-// // --- FIM ROTAS CRUD ---
+    } catch (error) {
+        console.error(`Erro ao processar exclusão do produto ID ${produtoId}:`, error);
+        res.status(500).send("Erro interno ao tentar excluir o produto.");
+    }
+});
 
 export default router;

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar: <%= produto.nome_gen %> - RotuScan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #37b14d !important;
+            min-height: 100vh;
+            padding-top: 56px;
+        }
+
+        .product-detail-card {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-image-col img {
+            max-width: 100%;
+            height: auto;
+            max-height: 450px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            padding: 5px;
+            background-color: #f8f9fa;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        /* esconder o input real (vamos usar label para disparar) */
+        .file-upload-wrapper input[type=file] {
+            display: none;
+        }
+
+        .product-info-col h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #343a40;
+        }
+
+        .info-label {
+            font-weight: 700;
+            color: #495057;
+            margin-bottom: 0.3rem;
+            display: block;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        .barcode-container {
+            margin-top: 0.5rem;
+            min-height: 80px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+
+        .barcode-container svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .action-buttons {
+            margin-top: 2rem;
+        }
+
+        .btn-save-custom {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: white;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-save-custom:hover {
+            background-color: #1e7e34;
+            border-color: #1c7430;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.6);
+        }
+
+        .btn-change-image {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            font-weight: 500;
+            padding: 6px 10px;
+            border-radius: 4px;
+        }
+
+        .btn-change-image:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5 pt-5">
+        <div class="product-detail-card">
+
+            <h1 class="text-center mb-4">Editando Produto: <%= produto.nome_gen %></h1>
+
+            <form action="/produto/update/<%= produto.id %>" method="POST" enctype="multipart/form-data">
+
+                <div class="row g-4">
+
+                    <!-- Coluna de Imagem e Upload -->
+                    <div class="col-md-5 product-image-col text-center">
+                        <img id="current-image"
+                            src="<%= produto.url_imagem_produto ? produto.url_imagem_produto : '/imgs/placeholder.png' %>"
+                            alt="Imagem de <%= produto.nome_gen %>"
+                            onerror="this.onerror=null; this.src='/imgs/placeholder.png';">
+
+                        <!-- Campo escondido para manter a URL da imagem existente se nenhuma nova for enviada -->
+                        <input type="hidden" name="url_imagem_existente" value="<%= produto.url_imagem_produto %>">
+
+                        <!-- Wrapper com label que dispara o input file -->
+                        <div class="file-upload-wrapper">
+                            <label for="imagem_produto_file" class="btn btn-sm btn-change-image">
+                                <i class="fas fa-camera"></i> Escolher Nova Imagem
+                            </label>
+                            <!-- INPUT de arquivo CORRIGIDO: name="imagemProduto" -->
+                            <input type="file" name="imagemProduto" id="imagem_produto_file" accept="image/*"
+                                onchange="previewNewImage(event)">
+                        </div>
+                    </div>
+
+                    <!-- Coluna de Campos Editáveis (Inputs) -->
+                    <div class="col-md-7 product-info-col">
+
+                        <div class="alert alert-warning alert-dismissible fade show small" role="alert">
+                            Altere as informações abaixo para atualizar o produto.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+
+                        <!-- CÓDIGO DE BARRAS -->
+                        <div>
+                            <label for="cod_barra" class="info-label">Código de Barras:</label>
+                            <input type="text" class="form-control mb-3" id="cod_barra" name="cod_barra"
+                                value="<%= produto.cod_barra %>" placeholder="Digite o código de barras">
+
+                            <div id="barcode-warning" class="alert alert-danger small py-1 px-2 mb-2 d-none" role="alert">
+                                <i class="fas fa-exclamation-triangle"></i> O Código de Barras precisa ter 12 ou 13 dígitos para o padrão EAN.
+                            </div>
+                            <div class="barcode-container">
+                                <svg id="barcode"></svg>
+                            </div>
+                        </div>
+
+                        <!-- NOME GENÉRICO -->
+                        <div>
+                            <label for="nome_gen" class="info-label mt-3">Nome Genérico:</label>
+                            <input type="text" class="form-control mb-3" id="nome_gen" name="nome_gen"
+                                value="<%= produto.nome_gen %>" placeholder="Nome do produto">
+                        </div>
+
+                        <!-- QUANTIDADE -->
+                        <div>
+                            <label for="quantidade" class="info-label">Quantidade (g/mL):</label>
+                            <input type="text" class="form-control mb-3" id="quantidade" name="quantidade"
+                                value="<%= produto.quantidade || '' %>" placeholder="Ex: 500g">
+                        </div>
+
+                        <!-- MARCA -->
+                        <div>
+                            <label for="marca_produto" class="info-label">Marca:</label>
+                            <input type="text" class="form-control mb-3" id="marca_produto" name="marca_produto"
+                                value="<%= produto.marca_produto %>" placeholder="Marca do produto">
+                        </div>
+
+                        <!-- Informação do Cadastrado por (Apenas Visualização) -->
+                        <div class="mt-4">
+                            <span class="info-label">Cadastrado por:</span>
+                            <p class="form-control-static">
+                                <% if (produto.usuario_id_fk) { %>
+                                    <%= produto.usuario_id_fk %>
+                                <% } else { %>
+                                    Usuário não disponível
+                                <% } %>
+                            </p>
+                        </div>
+
+                        <!-- Botões de Ação -->
+                        <div class="action-buttons mt-4 d-flex justify-content-end gap-2">
+                            <a href="/produtos" class="btn btn-secondary">Cancelar e Voltar</a>
+                            <button type="submit" class="btn btn-success btn-save-custom">
+                                <i class="fas fa-save"></i> Salvar Alterações
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+    <script src="/js/script.js"></script>
+
+    <script>
+        function updateBarcode() {
+            const barcodeElement = document.getElementById('barcode');
+            const barcodeWarningElement = document.getElementById('barcode-warning');
+            const codBarraInput = document.getElementById('cod_barra');
+            let barcodeValue = (codBarraInput.value || "").trim();
+
+            if (barcodeElement && barcodeValue && typeof JsBarcode === 'function') {
+                const sanitizedBarcode = barcodeValue.replace(/\D/g, '');
+
+                if (sanitizedBarcode.length < 12) {
+                    if (barcodeWarningElement) barcodeWarningElement.classList.remove('d-none');
+                    barcodeElement.innerHTML = '<span class="text-danger small">Código inválido para EAN (precisa de 12 ou 13 dígitos).</span>';
+                } else {
+                    try {
+                        JsBarcode(barcodeElement, sanitizedBarcode, {
+                            format: "EAN13",
+                            lineColor: "#000",
+                            width: 2,
+                            height: 60,
+                            displayValue: true
+                        });
+                        if (barcodeWarningElement) barcodeWarningElement.classList.add('d-none');
+                    } catch (e) {
+                        console.error("Erro ao gerar código de barras EAN13:", e);
+                        if (barcodeWarningElement) barcodeWarningElement.classList.remove('d-none');
+                        barcodeElement.innerHTML = `<span class="text-danger small">Erro ao gerar código EAN: ${e.message}. Verifique o código.</span>`;
+                    }
+                }
+            } else if (barcodeElement) {
+                barcodeElement.innerHTML = '<span class="text-muted small">Código de barras não disponível.</span>';
+                if (barcodeWarningElement) barcodeWarningElement.classList.add('d-none');
+            }
+        }
+
+        function previewNewImage(event) {
+            const imageElement = document.getElementById('current-image');
+            if (event.target.files && event.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imageElement.src = e.target.result;
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateBarcode();
+            const codBarraInput = document.getElementById('cod_barra');
+            if (codBarraInput) {
+                codBarraInput.addEventListener('input', updateBarcode);
+            }
+        });
+    </script>
+</body>
+</html>

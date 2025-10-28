@@ -344,6 +344,17 @@ body {
     padding: 0 10px;
 }
 
+/* Remove sublinhado e mantém cores originais */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
 .product-card {
     background: white;
     border-radius: 12px;
@@ -427,6 +438,40 @@ body {
     background-color: #059669;
 }
 
+.floating-action-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 60px;
+    font-size: 24px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.floating-action-button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .floating-action-button {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 20px;
+    }
+}
+
 @media (max-width: 768px) {
     .page-header h1 {
         font-size: 2rem;
@@ -456,6 +501,7 @@ body {
         font-size: 0.95rem;
     }
 }
+
 
 /* Fim do css Home  */
 

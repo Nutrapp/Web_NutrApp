@@ -1,0 +1,70 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid" style="padding-left: 7.5rem;">
+        <a href="/produtos">
+            <img src="../imgs/logos/RotoScan.png" class="iconLogo" />
+        </a>
+        <br>
+        <br>
+        <div class="logo-text" style="padding-left: 2rem;">
+            <span>Rotu</span><span>Scan</span>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav" style="padding-left: 3rem;">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/produtos">Produtos</a>
+                </li>
+                <% if (typeof usuarioLogado !=='undefined' && usuarioLogado) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/addProdutos">Cadastrar Produto</a>
+                    </li>
+                    <% } %>
+            </ul>
+
+            <form class="d-flex me-3" action="/produtos/pesquisar" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Buscar produto..." aria-label="Search"
+                    name="q" required>
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+
+            <ul class="navbar-nav">
+                <% if (typeof usuarioLogado !=='undefined' && usuarioLogado) { %>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Olá,
+                            <% const nomeCompleto=usuarioLogado.nome || 'Usuário' ; 
+                            const limite=12;
+                            let nomeExibicao; 
+                            
+                            if (nomeCompleto.length> limite) {
+                                nomeExibicao = nomeCompleto.substring(0, limite) + '...';
+                                } else {
+                                nomeExibicao = nomeCompleto;
+                                }
+                                %>
+                                <%= nomeExibicao %>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/perfil">Meu Perfil</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="/logout">Sair</a></li>
+                        </ul>
+                    </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Entrar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-sm btn-outline-light ms-2" href="/cadastro">Cadastrar</a>
+                        </li>
+                        <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>

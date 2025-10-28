@@ -4,285 +4,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Usa o nome genérico do produto no título -->
     <title>Detalhes: <%= produto.nome_gen %> - RotuScan</title>
-    <!-- Inclua seus CSS (Bootstrap, style.css) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/viewProduto.css">
+    <link rel="stylesheet" href="/css/produtos.css">
     <link rel="stylesheet" href="/css/style.css">
-    <!-- ÍCONES (Font Awesome) - Adicionado para ícones de Editar/Excluir -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Fundo verde claro para o corpo da página */
-        body {
-            background-color: #27b427 !important;
-            min-height: 100vh;
-        }
-
-        .product-detail-card {
-            background-color: #fff;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            margin-top: 2rem;
-        }
-
-        .product-image-col img {
-            max-width: 100%;
-            height: auto;
-            max-height: 400px;
-            object-fit: contain;
-            border-radius: 8px;
-            border: 1px solid #eee;
-        }
-
-        .product-info-col h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #555;
-            margin-bottom: 0.2rem;
-            display: block;
-        }
-
-        .info-value {
-            color: #333;
-            margin-bottom: 1rem;
-            word-wrap: break-word;
-        }
-
-        .barcode-container {
-            margin-top: 0.5rem;
-            min-height: 60px;
-            background-color: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        .missing-info-note {
-            font-size: 0.9em;
-            color: #6c757d;
-            margin-top: 1.5rem;
-            border-top: 1px solid #eee;
-            padding-top: 1rem;
-        }
-
-        .product-detail-card .row {
-            align-items: flex-start;
-        }
-
-        .btn-edit-custom {
-            background-color: #ffc107;
-            border-color: #ffc107;
-            color: #333;
-            font-weight: bold;
-            transition: all 0.2s ease-in-out;
-            box-shadow: 0 4px 8px rgba(255, 193, 7, 0.4);
-        }
-
-        .btn-edit-custom:hover {
-            background-color: #e0a800;
-            border-color: #e0a800;
-            color: #333;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(255, 193, 7, 0.6);
-        }
-
-        .btn-delete-custom {
-            background-color: #dc3545;
-            border-color: #dc3545;
-            color: white;
-            font-weight: bold;
-            transition: all 0.2s ease-in-out;
-            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
-        }
-
-        .btn-delete-custom:hover {
-            background-color: #c82333;
-            border-color: #c82333;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(220, 53, 69, 0.6);
-        }
-
-        .btn-secondary {
-            transition: all 0.2s ease-in-out;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-secondary:hover {
-            transform: translateY(-1px);
-        }
-    </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">RotuScan</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/produtos">Produtos</a>
-                    </li>
-                    <% if (typeof usuarioLogado !=='undefined' && usuarioLogado) { %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/addProdutos">Cadastrar Produto</a>
-                        </li>
-                        <% } %>
-                </ul>
-                <ul class="navbar-nav">
-                    <% if (typeof usuarioLogado !=='undefined' && usuarioLogado) { %>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Olá, <%= usuarioLogado.nome || 'Usuário' %>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="/perfil">Meu Perfil</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="/logout">Sair</a></li>
-                            </ul>
-                        </li>
-                        <% } else { %>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/login">Entrar</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-sm btn-outline-light ms-2" href="/cadastro">Cadastrar</a>
-                            </li>
-                            <% } %>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <%-include('./partials/navbar.ejs')%>
 
-    <div class="container mt-5 pt-5">
-        <div class="product-detail-card">
-            <div class="row g-4">
-                <div class="col-md-5 product-image-col text-center">
-                    <img src="<%= produto.url_imagem_produto %>" alt="Imagem de <%= produto.nome_gen %>">
-                </div>
-
-                <div class="col-md-7 product-info-col">
-                    <h1>
-                        <%= produto.nome_gen %>
-                            <% if (produto.quantidade) { %> - <%= produto.quantidade %>g <% } %>
-                    </h1>
-
-                    <div class="alert alert-warning alert-dismissible fade show small" role="alert">
-                        Esta página exibe os dados disponíveis. Campos como Embalagem e Categorias não estão no modelo
-                        atual.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="container mt-5 pt-5">
+            <div class="product-detail-card">
+                <div class="row g-4">
+                    <div class="col-md-5 product-image-col text-center">
+                        <img src="<%= produto.url_imagem_produto ? produto.url_imagem_produto : '/img/placeholder.jpg' %>"
+                            alt="Imagem de <%= produto.nome_gen %>"
+                            onerror="this.onerror=null;this.src='/img/placeholder.jpg';">
                     </div>
 
-                    <div>
-                        <span class="info-label">Código de Barras:</span>
-                        <p class="info-value" id="cod-barra-valor" data-cod-barra="<%= produto.cod_barra %>">
-                            <%= produto.cod_barra %>
+                    <div class="col-md-7 product-info-col">
+                        <p class="small text-muted mb-3">
+                            Cadastrado por:
+                            <span class="fw-bold">
+                                <%= nomeCadastrador %>
+                            </span>
                         </p>
 
-                        <div class="barcode-container">
-                            <svg id="barcode"></svg>
+                        <div class="mt-2 p-2 bg-light rounded small">
+                            <span class="info-label"></span>
+                            <span class="font-monospace">
+
+                            </span>
                         </div>
-                    </div>
+                        <div class="alert alert-warning alert-dismissible fade show small" role="alert">
+                            Esta página exibe os dados disponíveis. Campos como Embalagem e Categorias não estão no
+                            modelo
+                            atual.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
 
-                    <div>
-                        <span class="info-label">Nome Genérico:</span>
-                        <p class="info-value">
-                            <%= produto.nome_gen %>
-                        </p>
-                    </div>
-
-                    <% if (produto.quantidade) { %>
                         <div>
-                            <span class="info-label">Quantidade:</span>
+                            <span class="info-label">Código de Barras:</span>
+                            <p class="info-value" id="cod-barra-valor" data-cod-barra="<%= produto.cod_barra %>">
+                                <%= produto.cod_barra %>
+                            </p>
+
+                            <div class="barcode-container">
+                                <svg id="barcode"></svg>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="info-label">Nome Genérico:</span>
                             <p class="info-value">
-                                <%= produto.quantidade %> g
+                                <%= produto.nome_gen %>
                             </p>
                         </div>
-                        <% } %>
 
                             <div>
-                                <span class="info-label">Marca:</span>
+                                <span class="info-label">Quantidade:</span>
                                 <p class="info-value">
-                                    <%= produto.marca_produto %>
+                                    <%= produto.quantidade %> g
                                 </p>
                             </div>
+        
+                                <div>
+                                    <span class="info-label">Marca:</span>
+                                    <p class="info-value">
+                                        <%= produto.marca_produto %>
+                                    </p>
+                                </div>
 
-                            <div class="mt-4 d-flex justify-content-end gap-2">
-                                <a href="/produto/edit/<%= produto.id %>" class="btn btn-edit-custom">
-                                    <i class="fas fa-edit"></i> Editar
-                                </a>
-                                <form action="/produto/delete/<%= produto.id %>" method="POST"
-                                    onsubmit="console.log('Confirmação de exclusão acionada (Substitua por um modal customizado)'); return true;"
-                                    style="display: inline;">
-                                    <button type="submit" class="btn btn-delete-custom">
-                                        <i class="fas fa-trash"></i> Excluir
-                                    </button>
-                                </form>
-                                <a href="/produtos" class="btn btn-secondary">Voltar para Lista</a>
-                            </div>
+                                <div class="mt-2 p-2 bg-light rounded small">
+                                    <span class="info-label"></span>
+                                    <span class="font-monospace">
+                                    </span>
+                                </div>
 
+                                <div class="mt-4 d-flex justify-content-end gap-2">
+                                    <a href="/produtos" class="btn btn-secondary">Voltar para Lista</a>
+
+                                    <% const isOwner=typeof usuarioLogado !=='undefined' && usuarioLogado &&
+                                        usuarioLogado.id && produto.usuario_id_fk &&
+                                        String(usuarioLogado.id)===String(produto.usuario_id_fk); %>
+                                        <% if (isOwner) { %>
+                                            <a href="/produto/edit/<%= produto.id %>" class="btn btn-edit-custom">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </a>
+                                            <form action="/produtos/delete/<%= produto.id %>" method="POST"
+                                                onsubmit="return confirm('ATENÇÃO: Você tem certeza que deseja excluir este produto? Essa ação é irreversível.')"
+                                                style="display: inline;">
+                                                <button type="submit" class="btn btn-delete-custom">
+                                                    <i class="fas fa-trash"></i> Excluir
+                                                </button>
+                                            </form>
+                                            <% } else if (typeof usuarioLogado !=='undefined' && usuarioLogado) { %>
+
+                                                <% } else { %>
+                                                    <% } %>
+                                </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Inclua seus JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
-    <script src="/js/script.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const barcodeElement = document.getElementById('barcode');
-
-            // Pegamos o valor diretamente do atributo data-cod-barra já presente no HTML
-            // Isso evita qualquer injeção direta de EJS dentro do script e é seguro.
-            const codBarraElement = document.getElementById('cod-barra-valor');
-            let barcodeValue = "";
-
-            if (codBarraElement) {
-                barcodeValue = codBarraElement.getAttribute('data-cod-barra') || "";
-            }
-
-            // Fallback: se não existir ou for vazio, usar código de teste EAN13
-            if (!barcodeValue || String(barcodeValue).trim() === "") {
-                console.warn("Atenção: Código de barras não encontrado. Usando código de barras de teste.");
-                barcodeValue = "1234567890128"; // EAN13 de teste válido
-            }
-
-            // Gerar código de barras se possível
-            if (barcodeElement && barcodeValue && typeof JsBarcode === 'function' && String(barcodeValue).trim() !== "") {
-                try {
-                    JsBarcode(barcodeElement, String(barcodeValue), {
-                        format: "EAN13",
-                        lineColor: "#000",
-                        width: 2,
-                        height: 60,
-                        displayValue: true
-                    });
-                } catch (e) {
-                    console.error("Erro ao gerar código de barras:", e);
-                    barcodeElement.parentElement.innerHTML = '<span class="text-danger small">Erro ao gerar código de barras. Verifique se o código é válido (ex: 13 dígitos para EAN13).</span>';
-                }
-            } else if (barcodeElement) {
-                barcodeElement.parentElement.innerHTML = '<span class="text-muted small">Código de barras não disponível.</span>';
-            }
-        });
-    </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/editProduto.js"></script>
 
 </body>
 

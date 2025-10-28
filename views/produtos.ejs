@@ -15,41 +15,7 @@
   <link rel="stylesheet" href="css/produtos.css" />
   <title>RotuScan - Guia Completo sobre Intolerância alimentares</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
-  <style>
-    .floating-action-button {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 60px;
-      height: 60px;
-      background-color: #28a745;
-      color: white;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 60px;
-      font-size: 24px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      z-index: 1000;
-      transition: background-color 0.3s, transform 0.3s;
-    }
 
-    .floating-action-button:hover {
-      background-color: #218838;
-      transform: scale(1.05);
-      color: white;
-    }
-
-    @media (max-width: 768px) {
-      .floating-action-button {
-        bottom: 20px;
-        right: 20px;
-        width: 50px;
-        height: 50px;
-        line-height: 50px;
-        font-size: 20px;
-      }
-    }
-  </style>
 </head>
 
 <body>
@@ -59,76 +25,62 @@
 
   <div class="scroll-progress" id="scrollProgress"></div>
 
-  <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
-    <div class="container">
-      <a href="#home">
-        <img src="imgs/logos/RotoScan.png" class="iconLogo" />
-      </a>
-      <br>
-      <br>
-       <div class="logo-text">
-    <span>Rotu</span><span>Scan</span>
-  </div>
+  <%-include('./partials/navbar.ejs')%>
 
+    <section id="home" class="hero">
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+      <div class="textLeft">
+        <h1>RotuScan o app<br>que te ajuda a se<br>alimentar melhor</h1>
+        <p>Quer se alimentar sem medo? Quer se alimentar sem medo? Quer se alimentar sem medo?</p>
+        <a href="#" class="btnBaixe">Baixe já!</a>
       </div>
-    </div>
-  </nav>
-
-  <section id="home" class="hero">
-
-    <div class="textLeft">
-      <h1>RotuScan o app<br>que te ajuda a se<br>alimentar melhor</h1>
-      <p>Quer se alimentar sem medo? Quer se alimentar sem medo? Quer se alimentar sem medo?</p>
-      <a href="#" class="btnBaixe">Baixe já!</a>
-    </div>
 
 
-    <div>
-      <img src="imgs/produtos/header.png" class="ImgHome">
-    </div>
-    </div>
-  </section>
+      <div>
+        <img src="imgs/produtos/header.png" class="ImgHome">
+      </div>
+      </div>
+    </section>
 
-  <div class="product">
+    <div class="product">
 
-    <header class="page-header">
-      <h1>Produtos</h1>
-      <p class="subtitle">
-        Sua fonte de consulta segura. Encontre qualquer produto do nosso catálogo e veja sua análise nutricional
-        completa.
-        Garantindo que você saiba exatamente o que está levando para casa.
-      </p>
-    </header>
+      <header class="page-header">
+        <h1>Produtos</h1>
+        <p class="subtitle">
+          Sua fonte de consulta segura. Encontre qualquer produto do nosso catálogo e veja sua análise nutricional
+          completa.
+          Garantindo que você saiba exatamente o que está levando para casa.
+        </p>
+      </header>
 
-    <div class="products-grid">
-      <% produtos.forEach(produto=> { %>
-        <a href="/produto/<%= produto.id %>" class="product-card-link">
-          <div class="product-card">
-            <div class="product-image">
-              <img src="<%= produto.url_imagem_produto %>" alt="<%= produto.nome_gen %>">
-            </div>
-            <div class="product-info">
-              <span class="product-category">
-                <%= produto.marca_produto %>
+      <div class="products-grid">
+        <% produtos.forEach(produto=> { %>
+          <a href="/produto/<%= produto.id %>" class="product-card-link">
+            <div class="product-card">
+              <div class="product-image">
+                <img src="<%= produto.url_imagem_produto %>" alt="<%= produto.nome_gen %>">
+              </div>
+              <div class="product-info">
+               <span class="product-category">
+                Cadastrado por: <%= produto.nomeCadastrador %>
               </span>
 
-              <h3 class="product-name">
-                <%= produto.nome_gen %>
-              </h3>
+                <h3 class="product-name">
+                  <%= produto.nome_gen %>
+                </h3>
 
-              <span class="product-badge">Disponível</span>
+                <span class="product-badge">
+                  <%= produto.marca_produto %>
+                </span>
+              </div>
             </div>
-          </div>
-        </a>
-        <% }); %>
-    </div>
+          </a>
+          <% }); %>
+      </div>
 
-    <a href="/addProdutos" class="floating-action-button" title="Cadastrar Novo Produto">
-      <i class="fas fa-plus"></i>
-    </a>
+      <a href="/addProdutos" class="floating-action-button" title="Cadastrar Novo Produto">
+        <i class="fas fa-plus"></i>
+      </a>
 
 </body>
 
