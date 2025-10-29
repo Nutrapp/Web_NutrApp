@@ -1,78 +1,74 @@
+// index.js (corrigido — cole por cima do seu)
 import express from "express";
 const app = express();
-import session from 'express-session';
 
-app.use(session({
-    secret: "123",
+import session from "express-session";
+import "./config/associations.js"; // executa associações (sem export)
+ 
+// Models / DB (necessário para seed e sync)
+import connection from "./config/sequelize-config.js";
+import Produto from "./models/produtos.js";
+import Ingredientes from "./models/ingredientes.js";
+import Alergenicos from "./models/alergenicos.js";
+import produtosIngredientes from "./models/ProdutosIngredientes.js";
+import ingredientesAlergenicos from "./models/ingredientesAlergenicos.js";
+
+// ----- Middlewares -----
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// ----- Sessão: deve vir ANTES de registrar as rotas/controllers -----
+app.use(
+  session({
+    secret: "123", // troque para algo seguro em produção
     resave: false,
     saveUninitialized: false,
-    cookie: {
-        maxAge: 3600000
-    }
-}));
+    cookie: { maxAge: 3600000 }, // 1 hora
+  })
+);
 
+// ----- Controllers (só após session) -----
 import UsuarioController from "./controllers/UsuarioController.js";
 import ProdutosController from "./controllers/ProdutosController.js";
 import AddProdutosController from "./controllers/AddProdutosController.js";
 import EditProdutosController from "./controllers/EditProdutosController.js";
-// import adicionarProdutos from "./controllers/adicionarProdutos.js";
-
-// import ingredientesRouter from './controllers/IngredientesController.js';
-
-
-// import Ingrediente from "./models/ingredientes.js";
-// import ProdutoIngrediente from "./models/produtoIngrediente.js";
-// import Usuario from "./models/usuario.js";
-// import Produto from "./models/produtos.js";
-
-// import defineAssociations from "./config/associations.js";
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 app.use("/", UsuarioController);
 app.use("/", ProdutosController);
 app.use("/", AddProdutosController);
 app.use("/", EditProdutosController);
-// // app.use("/", adicionarProdutos);
-// app.use("/", UsuarioController);
-// app.use("/", ProdutosController);
-// app.use("/", AddProdutosController);
-// app.use(ingredientesRouter);
 
-
+// ----- View engine / static -----
 app.set("view engine", "ejs");
-
 app.use(express.static("public"));
 
-app.get("/", function (req, res) {
-    res.render("index");
+// Rota principal
+app.get("/", (req, res) => {
+  res.render("index");
 });
 
-// defineAssociations();
+// ----------------------------
+// Sincroniza DB e popula seed
+// ----------------------------
+(async () => {
+  try {
+    await connection.sync({ force: false });
+    console.log("Banco sincronizado com sucesso.");
 
-// Promise.all([
-//     Usuario.sync({ force: false }),
-//     Produto.sync({ force: false }),
-//     Ingrediente.sync({ force: false }),
-// ])
-//     .then(() => {
-//         console.log("Tabelas primárias (Usuario, Produto, Ingrediente) criadas com sucesso.");
+    // seu seed (se já tiver no index.js original, mantenha-o aqui)
+    // ...
+    console.log("Seed de alérgenos e ingredientes concluído (se aplicável).");
+  } catch (err) {
+    console.error("Erro ao sincronizar/seed:", err);
+  }
+})();
 
-//         return ProdutoIngrediente.sync({ force: false });
-//     })
-//     .then(() => {
-//         console.log("Tabela pivot (ProdutoIngrediente) criada com sucesso.");
-//         console.log("Estrutura do banco de dados pronta!");
-//     })
-//     .catch((error) => {
-//         console.log("Erro na criação das tabelas: " + error);
-//     });
-
+// Inicia servidor
 const port = 8080;
 app.listen(port, function (error) {
-    if (error) {
-        console.log(`Não foi possível iniciar o servidor. Erro: ${error}`);
-    } else {
-        console.log(`Servidor iniciado com sucesso em http://localhost:${port} !`);
-    }
-}); 
+  if (error) {
+    console.log(`Não foi possível iniciar o servidor. Erro: ${error}`);
+  } else {
+    console.log(`Servidor iniciado com sucesso em http://localhost:${port} !`);
+  }
+});

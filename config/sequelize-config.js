@@ -7,7 +7,7 @@ const connection = new Sequelize({
     username: 'root',
     password: '',
     // Definindo o banco de dados da aplicação
-    database: 'listaprodutos',
+    database: 'WEB_ROTUSCAN',
     // Definindo o fuso horário de São Paulo
     timezone: '-03:00',
 });

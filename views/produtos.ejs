@@ -15,7 +15,6 @@
   <link rel="stylesheet" href="css/produtos.css" />
   <title>RotuScan - Guia Completo sobre Intolerância alimentares</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
-
 </head>
 
 <body>
@@ -27,43 +26,42 @@
 
   <%-include('./partials/navbar.ejs')%>
 
-    <section id="home" class="hero">
+  <section id="home" class="hero">
+    <div class="textLeft">
+      <h1>RotuScan o app<br>que te ajuda a se<br>alimentar melhor</h1>
+      <p>Quer se alimentar sem medo? Quer se alimentar sem medo? Quer se alimentar sem medo?</p>
+      <a href="#" class="btnBaixe">Baixe já!</a>
+    </div>
 
-      <div class="textLeft">
-        <h1>RotuScan o app<br>que te ajuda a se<br>alimentar melhor</h1>
-        <p>Quer se alimentar sem medo? Quer se alimentar sem medo? Quer se alimentar sem medo?</p>
-        <a href="#" class="btnBaixe">Baixe já!</a>
-      </div>
+    <div>
+      <img src="imgs/produtos/header.png" class="ImgHome">
+    </div>
+  </section>
 
+  <div class="product">
+    <header class="page-header">
+      <h1>Produtos</h1>
+      <p class="subtitle">
+        Sua fonte de consulta segura. Encontre qualquer produto do nosso catálogo e veja sua análise nutricional
+        completa.
+        Garantindo que você saiba exatamente o que está levando para casa.
+      </p>
+    </header>
 
-      <div>
-        <img src="imgs/produtos/header.png" class="ImgHome">
-      </div>
-      </div>
-    </section>
-
-    <div class="product">
-
-      <header class="page-header">
-        <h1>Produtos</h1>
-        <p class="subtitle">
-          Sua fonte de consulta segura. Encontre qualquer produto do nosso catálogo e veja sua análise nutricional
-          completa.
-          Garantindo que você saiba exatamente o que está levando para casa.
-        </p>
-      </header>
-
-      <div class="products-grid">
-        <% produtos.forEach(produto=> { %>
+    <div class="products-grid">
+      <% if (!produtos || produtos.length === 0) { %>
+        <p class="text-center">Nenhum produto cadastrado.</p>
+      <% } else { %>
+        <% produtos.forEach(produto => { %>
           <a href="/produto/<%= produto.id %>" class="product-card-link">
             <div class="product-card">
               <div class="product-image">
                 <img src="<%= produto.url_imagem_produto %>" alt="<%= produto.nome_gen %>">
               </div>
               <div class="product-info">
-               <span class="product-category">
-                Cadastrado por: <%= produto.nomeCadastrador %>
-              </span>
+                <span class="product-category">
+                  Cadastrado por: <%= produto.nomeCadastrador %>
+                </span>
 
                 <h3 class="product-name">
                   <%= produto.nome_gen %>
@@ -72,16 +70,30 @@
                 <span class="product-badge">
                   <%= produto.marca_produto %>
                 </span>
+
+                <!-- ---------- MOSTRAR APENAS INGREDIENTES RESUMIDOS ---------- -->
+                <% if (produto.ingredientes && produto.ingredientes.length) { %>
+                  <div class="mt-2">
+                    <% produto.ingredientes.slice(0,3).forEach(function(ing){ %>
+                      <span class="badge bg-light text-dark me-1 mb-1" title="<%= ing.descricao || '' %>">
+                        <i class="fas fa-seedling"></i> <%= ing.nome %>
+                      </span>
+                    <% }) %>
+                    <% if (produto.ingredientes.length > 3) { %>
+                      <small class="text-muted">+<%= produto.ingredientes.length - 3 %> mais</small>
+                    <% } %>
+                  </div>
+                <% } %>
+
               </div>
             </div>
           </a>
-          <% }); %>
-      </div>
+        <% }); %>
+      <% } %>
+    </div>
 
-      <a href="/addProdutos" class="floating-action-button" title="Cadastrar Novo Produto">
-        <i class="fas fa-plus"></i>
-      </a>
-
+    <a href="/addProdutos" class="floating-action-button" title="Cadastrar Novo Produto">
+      <i class="fas fa-plus"></i>
+    </a>
 </body>
-
 </html>

@@ -113,6 +113,8 @@
             color: white;
         }
 
+        /* Se quiser ajustar visual das checkboxes de ingredientes */
+        .ingredients-list { max-height:200px; overflow:auto; padding:8px; border-radius:6px; border:1px solid rgba(0,0,0,0.08); background:#fff; }
     </style>
 </head>
 
@@ -190,6 +192,28 @@
                             <input type="text" class="form-control mb-3" id="marca_produto" name="marca_produto"
                                 value="<%= produto.marca_produto %>" placeholder="Marca do produto">
                         </div>
+
+                        <!-- ---------- NOVO: Ingredientes (checkboxes) ---------- -->
+                        <div class="mt-3">
+                          <label class="info-label">Ingredientes vinculados:</label>
+                          <% if (ingredientes && ingredientes.length) { %>
+                            <div class="ingredients-list mb-2">
+                              <% ingredientes.forEach(function(ing){ %>
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" name="ingredientes" value="<%= ing.id %>" id="ing_edit_<%= ing.id %>"
+                                    <% if (ingredientesSelecionados && ingredientesSelecionados.indexOf(ing.id) !== -1) { %> checked <% } %> >
+                                  <label class="form-check-label" for="ing_edit_<%= ing.id %>">
+                                    <%= ing.nome %><% if (ing.descricao) { %> — <small class="text-muted"><%= ing.descricao %></small><% } %>
+                                  </label>
+                                </div>
+                              <% }) %>
+                            </div>
+                          <% } else { %>
+                            <p>Nenhum ingrediente cadastrado.</p>
+                          <% } %>
+                          <small class="form-text text-muted">Marque os ingredientes que fazem parte deste produto.</small>
+                        </div>
+                        <!-- ---------- Fim ingredientes ---------- -->
 
                         <!-- Informação do Cadastrado por (Apenas Visualização) -->
                         <div class="mt-4">

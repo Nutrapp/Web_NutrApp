@@ -1,10 +1,10 @@
 import { Sequelize } from "sequelize";
 import connection from "../config/sequelize-config.js";
 
-const ingredientes = connection.define("ingredientes", {
+const alergenicos = connection.define("alergenicos", {
   nome: { type: Sequelize.STRING, allowNull: false, unique: true },
   descricao: { type: Sequelize.TEXT, allowNull: true }
 });
 
-await ingredientes.sync({ force: false });
-export default ingredientes;
+await alergenicos.sync({ force: false });
+export default alergenicos;

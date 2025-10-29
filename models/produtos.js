@@ -17,6 +17,10 @@ const Produto = connection.define("produtos", {
     type: Sequelize.STRING,
     allowNull: false,
   },
+quantidade: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
   usuario_id_fk: {
     type: Sequelize.INTEGER,
     allowNull: false, // Um produto DEVE ter um usuário associado

@@ -1,24 +1,41 @@
-// import Produto from "../models/produtos.js";
-// import Usuario from "../models/usuario.js";
-// import Ingrediente from "../models/ingredientes.js"; 
-// import ProdutoIngrediente from "../models/produtoIngrediente.js"; 
+import Ingredientes from "../models/ingredientes.js";
+import Alergenicos from "../models/alergenicos.js";
+import IngredientesAlergenicos from "../models/ingredientesAlergenicos.js";
+import Produto from "../models/produtos.js";
+import ProdutosIngredientes from "../models/ProdutosIngredientes.js";
 
-// const defineAssociations = () => {
+// ------------------------------
+// Ingredientes ↔ Alergenicos (N:N)
+// ------------------------------
+Ingredientes.belongsToMany(Alergenicos, {
+  through: IngredientesAlergenicos,
+  foreignKey: "ingredienteId",
+  otherKey: "alergenoId",
+  as: "alergenicos"
+});
 
-//     Usuario.hasMany(Produto, { foreignKey: "usuarioId" });
-//     Produto.belongsTo(Usuario, { foreignKey: "usuarioId" });
+Alergenicos.belongsToMany(Ingredientes, {
+  through: IngredientesAlergenicos,
+  foreignKey: "alergenoId",
+  otherKey: "ingredienteId",
+  as: "ingredientes"
+});
 
-//     Produto.belongsToMany(Ingrediente, {
-//         through: ProdutoIngrediente, 
-//         foreignKey: 'produtoId',
-//         as: 'ingredientes'
-//     });
+// ------------------------------
+// Produtos ↔ Ingredientes (N:N)
+// ------------------------------
+Produto.belongsToMany(Ingredientes, {
+  through: ProdutosIngredientes,
+  foreignKey: "produtoId",
+  otherKey: "ingredienteId",
+  as: "ingredientes"
+});
 
-//     Ingrediente.belongsToMany(Produto, {
-//         through: ProdutoIngrediente, 
-//         foreignKey: 'ingredienteId',
-//         as: 'produtos'
-//     });
-// };
+Ingredientes.belongsToMany(Produto, {
+  through: ProdutosIngredientes,
+  foreignKey: "ingredienteId",
+  otherKey: "produtoId",
+  as: "produtos"
+});
 
-// export default defineAssociations;
+console.log("✅ Associações entre tabelas configuradas com sucesso!");
