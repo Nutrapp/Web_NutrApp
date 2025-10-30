@@ -20,10 +20,10 @@ app.use(express.json());
 // ----- Sessão: deve vir ANTES de registrar as rotas/controllers -----
 app.use(
   session({
-    secret: "123", // troque para algo seguro em produção
+    secret: "123",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 3600000 }, // 1 hora
+    cookie: { maxAge: 3600000 },
   })
 );
 
@@ -55,8 +55,6 @@ app.get("/", (req, res) => {
     await connection.sync({ force: false });
     console.log("Banco sincronizado com sucesso.");
 
-    // seu seed (se já tiver no index.js original, mantenha-o aqui)
-    // ...
     console.log("Seed de alérgenos e ingredientes concluído (se aplicável).");
   } catch (err) {
     console.error("Erro ao sincronizar/seed:", err);

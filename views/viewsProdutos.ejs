@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes: <%= produto.nome_gen %> - RotuScan</title>
+    <link rel="icon" type="image/png" href="/imgs/Logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/viewProduto.css">
     <link rel="stylesheet" href="/css/produtos.css">
@@ -13,7 +14,7 @@
 </head>
 
 <body>
-    <%-include('./partials/navbar.ejs')%>
+    <%- include('./partials/navbar.ejs') %>
 
     <div class="container mt-5 pt-5">
         <div class="product-detail-card">
@@ -28,14 +29,11 @@
                 <!-- Coluna de informações -->
                 <div class="col-md-7 product-info-col">
                     <p class="small text-muted mb-3">
-                        Cadastrado por:
-                        <span class="fw-bold">
-                            <%= nomeCadastrador %>
-                        </span>
+                        Cadastrado por: <span class="fw-bold"><%= nomeCadastrador %></span>
                     </p>
 
                     <!-- Código de barras -->
-                    <div>
+                    <div class="mb-3">
                         <span class="info-label">Código de Barras:</span>
                         <p class="info-value" id="cod-barra-valor" data-cod-barra="<%= produto.cod_barra %>">
                             <%= produto.cod_barra %>
@@ -46,59 +44,88 @@
                     </div>
 
                     <!-- Nome genérico -->
-                    <div>
+                    <div class="mb-3">
                         <span class="info-label">Nome Genérico:</span>
                         <p class="info-value"><%= produto.nome_gen %></p>
                     </div>
 
                     <!-- Quantidade -->
-                    <div>
+                    <div class="mb-3">
                         <span class="info-label">Quantidade:</span>
                         <p class="info-value"><%= produto.quantidade %>g</p>
                     </div>
 
                     <!-- Marca -->
-                    <div>
+                    <div class="mb-3">
                         <span class="info-label">Marca:</span>
                         <p class="info-value"><%= produto.marca_produto %></p>
                     </div>
 
-                    <!-- Ingredientes -->
-                    <% if (produto.ingredientes && produto.ingredientes.length) { %>
-                    <div class="mt-3">
-                        <span class="info-label">Ingredientes:</span>
-                        <div class="d-flex flex-wrap mt-1">
-                            <% produto.ingredientes.forEach(function(ing){ %>
-                                <span class="badge bg-light text-dark me-1 mb-1" title="<%= ing.descricao || '' %>">
-                                    <i class="fas fa-seedling"></i> <%= ing.nome %>
-                                </span>
-                            <% }) %>
+                    <!-- Ingredientes (todos) -->
+                    <% const temIngredientes = produto.ingredientes && produto.ingredientes.length; %>
+                    <% if (temIngredientes) { %>
+                        <div class="mb-3">
+                            <span class="info-label">Ingredientes:</span>
+                            <div class="d-flex flex-wrap mt-1">
+                                <% produto.ingredientes.forEach(function(ing){ %>
+                                    <span class="badge bg-light text-dark me-1 mb-1" title="<%= ing.descricao || '' %>">
+                                        <i class="fas fa-seedling"></i> <%= ing.nome %>
+                                    </span>
+                                <% }) %>
+                            </div>
                         </div>
-                    </div>
                     <% } %>
 
-                    <!-- Aviso de consumo -->
-                    <% 
-                        let aviso = "Não foi possível determinar se pode consumir este produto.";
-                        if (produto.ingredientes && produto.ingredientes.length) {
-                            const alergicos = ['glúten','leite','amendoim','soja','ovos','peixe','crustáceos','nozes','trigo','cevada','aveia'];
-                            const contem = produto.ingredientes.some(ing => alergicos.includes(ing.nome.toLowerCase()));
-                            aviso = contem ? "Contém alergênicos, atenção!" : "Pode consumir sem restrições.";
-                        }
-                    %>
+                    <!-- Lógica de avisos:
+                         - se NÃO há ingredientes: caixa amarela (atenção: sem dados)
+                         - se há ingredientes: usar alergiasDetectadas (vermelho/verde)
+                         - se alergiasDetectadas não foi passado: fallback amarelo -->
                     <div class="mt-2">
-                        <small class="allergy-warning text-danger fw-bold">
-                            <i class="fas fa-exclamation-triangle"></i> <%= aviso %>
-                        </small>
+                        <% if (!temIngredientes) { %>
+                            <div class="alert alert-warning small d-flex align-items-start" role="alert" style="font-weight:700;">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <div>
+                                    <div><strong>Nenhum ingrediente cadastrado.</strong></div>
+                                    <div class="mt-1"><small>Não foi possível verificar alérgenos. Cuidado ao consumir este produto.</small></div>
+                                </div>
+                            </div>
+                        <% } else { %>
+                            <% if (typeof alergiasDetectadas !== 'undefined') { %>
+                                <% if (Array.isArray(alergiasDetectadas) && alergiasDetectadas.length > 0) { %>
+                                    <!-- alérgenos detectados -->
+                                    <div class="alert alert-danger small d-flex align-items-start" role="alert" style="font-weight:700;">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        <div>
+                                            <div><strong>Contém os seguintes alérgenos:</strong></div>
+                                            <div><%= alergiasDetectadas.join(', ') %></div>
+                                            <div class="mt-1"><small>Se você tem alguma dessas alergias, não consuma este produto.</small></div>
+                                        </div>
+                                    </div>
+                                <% } else { %>
+                                    <!-- nenhum alérgeno detectado -->
+                                    <div class="alert alert-success small d-flex align-items-center" role="alert" style="font-weight:700;">
+                                        <i class="fas fa-check-circle me-2"></i>
+                                        <div>Pode consumir sem restrições (não foram detectados alérgenos relacionados aos ingredientes cadastrados).</div>
+                                    </div>
+                                <% } %>
+                            <% } else { %>
+                                <!-- fallback: controller não forneceu alergiasDetectadas -->
+                                <div class="alert alert-warning small d-flex align-items-center" role="alert" style="font-weight:700;">
+                                    <i class="fas fa-question-circle me-2"></i>
+                                    <div>Não foi possível determinar se pode consumir este produto (dados insuficientes).</div>
+                                </div>
+                            <% } %>
+                        <% } %>
                     </div>
 
                     <!-- Botões -->
                     <div class="mt-4 d-flex justify-content-end gap-2">
                         <a href="/produtos" class="btn btn-secondary">Voltar para Lista</a>
 
-                        <% const isOwner=typeof usuarioLogado !=='undefined' && usuarioLogado &&
+                        <% const isOwner = typeof usuarioLogado !== 'undefined' && usuarioLogado &&
                             usuarioLogado.id && produto.usuario_id_fk &&
-                            String(usuarioLogado.id)===String(produto.usuario_id_fk); %>
+                            String(usuarioLogado.id) === String(produto.usuario_id_fk); %>
+
                         <% if (isOwner) { %>
                             <a href="/produto/edit/<%= produto.id %>" class="btn btn-edit-custom">
                                 <i class="fas fa-edit"></i> Editar
@@ -121,7 +148,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <script src="/js/script.js"></script>
-    <script src="/js/editProduto.js"></script>
+    <script>
+        // Gera código de barras se houver
+        const el = document.getElementById('cod-barra-valor');
+        if (el && el.dataset && el.dataset.codBarra && typeof JsBarcode === 'function') {
+            const code = (el.dataset.codBarra || '').toString().replace(/\D/g, '');
+            try {
+                if (code.length >= 12) {
+                    JsBarcode("#barcode", code, { format: "EAN13", lineColor: "#000", width: 2, height: 60, displayValue: true });
+                } else {
+                    document.getElementById('barcode').innerHTML = '<span class="small text-muted">Código de barras inválido/curto</span>';
+                }
+            } catch (e) {
+                console.error('Erro ao gerar barcode:', e);
+            }
+        }
+    </script>
 </body>
 
 </html>

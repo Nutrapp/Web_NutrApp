@@ -952,7 +952,7 @@ body {
     /* Max-width para telas grandes (ajuste conforme o Figma) */
     max-width: 850px; 
     width: 95%;
-    padding: 3rem; /* Padding interno, como no Figma */
+    padding: 1.5rem; /* Padding interno, como no Figma */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem; /* Espaço na parte inferior para respiro */
 }

@@ -8,6 +8,22 @@ import { Op } from "sequelize";
 
 const router = express.Router();
 
+// helper: normaliza string (remove acentos, trim, lowercase)
+function normalizeString(str) {
+  return (str || "")
+    .toString()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+// verifica se um nome de alérgeno indica "sem alergênicos" (cobre variações)
+function isSemAlergenico(normalizedName) {
+  // procura por "sem" e "alerg" em qualquer posição
+  return normalizedName.includes("sem") && normalizedName.includes("alerg");
+}
+
 // ROTA GET /produtos/pesquisar
 router.get("/produtos/pesquisar", (req, res) => {
   res.redirect(`/produtos?q=${encodeURIComponent(req.query.q || "")}`);
@@ -52,13 +68,21 @@ router.get("/produtos", async function (req, res) {
     const userMap = {};
     usuarios.forEach((u) => (userMap[u.id] = u.nome));
 
-    // Serializar produtos e gerar aviso de alergênicos
+    // Serializar produtos e gerar aviso de alergênicos (ignorando "Sem alergênicos")
     const produtosComNome = produtos.map((pInstance) => {
       const p = pInstance.toJSON();
       const alergSet = new Set();
+
       (p.ingredientes || []).forEach((ing) => {
-        (ing.alergenicos || []).forEach((a) => alergSet.add(a.nome));
+        (ing.alergenicos || []).forEach((a) => {
+          const nomeOriginal = (a.nome || "").toString();
+          const normalized = normalizeString(nomeOriginal);
+          if (!isSemAlergenico(normalized)) {
+            alergSet.add(nomeOriginal);
+          }
+        });
       });
+
       const alergens = Array.from(alergSet);
       const aviso =
         alergens.length > 0
@@ -129,9 +153,16 @@ router.get("/produto/:id", async (req, res) => {
 
     const produtoJSON = produto.toJSON();
 
+    // Gera lista única de alérgenos associados, IGNORANDO "Sem alergênicos"
     const alergensSet = new Set();
     (produtoJSON.ingredientes || []).forEach((ing) => {
-      (ing.alergenicos || []).forEach((a) => alergensSet.add(a.nome));
+      (ing.alergenicos || []).forEach((a) => {
+        const nomeOriginal = (a.nome || "").toString();
+        const normalized = normalizeString(nomeOriginal);
+        if (!isSemAlergenico(normalized)) {
+          alergensSet.add(nomeOriginal);
+        }
+      });
     });
     const alergiasDetectadas = Array.from(alergensSet);
 
